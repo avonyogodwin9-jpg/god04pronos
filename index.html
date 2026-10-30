@@ -6,6 +6,126 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GOD04 PRONOS</title>
 <style>
+*{box-sizing:border-box}
+body{margin:0;background:#06101d;color:white;font-family:Arial,sans-serif}
+header{text-align:center;padding:25px 12px;background:#10243a;border-bottom:3px solid #39e58c}
+h1{color:#39e58c;margin:0;font-size:30px}
+header p{color:#c5d4e5}
+main{max-width:850px;margin:auto;padding:18px}
+.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+input,button{padding:12px;border-radius:8px;border:0}
+button{background:#39e58c;color:#06101d;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.6}
+.card{background:#11243a;border:1px solid #25465e;border-radius:14px;padding:16px;margin:15px 0}
+.teams{display:flex;align-items:center;justify-content:space-around;gap:10px}
+.team{width:40%;text-align:center}
+.team img{width:48px;height:48px;object-fit:contain}
+.team strong{display:block;margin-top:8px}
+.vs{color:#39e58c;font-weight:bold}
+.meta{color:#a9bfd1;font-size:13px}
+.score{font-size:25px;color:#39e58c;font-weight:bold;margin:12px}
+.status{display:inline-block;padding:6px 10px;border-radius:20px;background:#25465e;font-size:12px}
+.prediction{border-top:1px solid #25465e;margin-top:12px;padding-top:10px;color:#d8e8f5}
+footer{text-align:center;color:#8ca5bb;padding:25px}
+</style>
+</head>
+<body>
+<header>
+<h1>GOD04 PRONOS</h1>
+<p>⚽ FOOTBALL • ANALYSES • PRONOSTICS</p>
+</header>
+
+<main>
+<h2>⚽ Matchs de football</h2>
+<p class="meta">Rencontres et résultats provenant de l'API Football.</p>
+
+<div class="controls">
+<input id="date" type="date">
+<button id="refresh" onclick="charger()">Actualiser les matchs</button>
+</div>
+
+<div id="matchs">Chargement des matchs...</div>
+</main>
+
+<footer>© GOD04 PRONOS</footer>
+
+<script>
+const dateInput=document.getElementById("date");
+const zone=document.getElementById("matchs");
+const refresh=document.getElementById("refresh");
+
+dateInput.value=new Date().toLocaleDateString("en-CA");
+
+function statut(m){
+ const s=m.fixture.status.short;
+ if(["1H","2H","HT","ET","P","LIVE"].includes(s)) return "🔴 EN DIRECT";
+ if(["FT","AET","PEN"].includes(s)) return "TERMINÉ";
+ return "À VENIR";
+}
+
+async function charger(){
+ refresh.disabled=true;
+ refresh.textContent="Chargement...";
+ zone.innerHTML="Chargement des rencontres...";
+
+ try{
+  const r=await fetch("/.netlify/functions/fixtures?date="+dateInput.value);
+  if(!r.ok) throw new Error("Erreur serveur");
+  const data=await r.json();
+
+  if(!data.response || data.response.length===0){
+   zone.innerHTML="<p>Aucun match disponible pour cette date.</p>";
+   return;
+  }
+
+  zone.innerHTML=data.response.map(m=>{
+   const heure=new Date(m.fixture.date).toLocaleString("fr-FR");
+   const resultat=(m.goals.home===null?"-":m.goals.home)+" - "+
+                  (m.goals.away===null?"-":m.goals.away);
+
+   return `
+   <div class="card">
+    <p class="meta">${m.league.name} • ${m.league.country||""}</p>
+    <span class="status">${statut(m)}</span>
+
+    <div class="teams">
+     <div class="team">
+      <img src="${m.teams.home.logo}" alt="">
+      <strong>${m.teams.home.name}</strong>
+     </div>
+     <div class="vs">VS</div>
+     <div class="team">
+      <img src="${m.teams.away.logo}" alt="">
+      <strong>${m.teams.away.name}</strong>
+     </div>
+    </div>
+
+    <p class="meta">${heure}</p>
+    <div class="score">${resultat}</div>
+    <p class="meta">Score réel si le match a commencé ou est terminé.</p>
+   </div>`;
+  }).join("");
+
+ }catch(e){
+  zone.innerHTML="<p>Impossible de charger les matchs. Réessaie plus tard.</p>";
+ }finally{
+  refresh.disabled=false;
+  refresh.textContent="Actualiser les matchs";
+ }
+}
+
+charger();
+</script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GOD04 PRONOS</title>
+<style>
 body{margin:0;background:#07111f;color:white;font-family:Arial;text-align:center}
 header{background:#10243a;padding:25px;border-bottom:3px solid #39e58c}
 h1{color:#39e58c}
