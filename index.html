@@ -1,296 +1,62 @@
-
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07131f">
+<meta name="description" content="GOD04 PRONOS — Générateur de tickets combinés football, analyses et calculateur d'accumulateurs.">
+<title>GOD04 PRONOS | Générateur ACCA</title>
+<style>
+:root{--bg:#07131f;--bg2:#0b1b2a;--panel:#102438;--panel2:#142d42;--line:#24445b;--text:#f4f8fb;--muted:#9cb2c4;--lime:#b7f34a;--lime2:#8ed52a;--orange:#ff9b52;--red:#ff7171;--shadow:0 18px 55px #0005;--r:18px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 75% -15%,#1c3b4a 0,transparent 32%),var(--bg);color:var(--text);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}.wrap{max-width:1440px;margin:auto;padding:0 28px}.top{position:sticky;top:0;z-index:20;background:#07131feF;border-bottom:1px solid #1a354a;backdrop-filter:blur(16px)}.nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:11px;font-weight:1000;letter-spacing:-.8px;font-size:21px}.ball{width:42px;height:42px;border-radius:13px;background:var(--lime);color:#14210a;display:grid;place-items:center;font-size:23px;box-shadow:0 0 28px #b7f34a33}.brand span{color:var(--lime)}.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:1.8px;font-weight:800}.links{display:flex;align-items:center;gap:24px;color:#bfd0dd;font-size:12px;font-weight:750}.links a:hover{color:var(--lime)}.navcta,.primary{border:0;border-radius:12px;padding:12px 17px;background:var(--lime);color:#132009;font-weight:950;box-shadow:0 8px 24px #b7f34a22}.navcta:hover,.primary:hover{background:#cbff70;transform:translateY(-1px)}.hero{padding:52px 0 34px;display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:28px}.kicker{color:var(--lime);font-size:10px;font-weight:950;letter-spacing:2px;text-transform:uppercase}.hero h1{font-size:clamp(36px,5.2vw,64px);line-height:.98;letter-spacing:-2.8px;margin:13px 0 15px;max-width:720px}.hero h1 span{color:var(--lime)}.hero p{color:#b4c5d2;max-width:590px;font-size:15px;margin:0}.hero-tags{display:flex;gap:9px;flex-wrap:wrap;margin-top:23px}.tag{border:1px solid #345369;color:#c7d7e2;background:#0e2333;border-radius:30px;padding:7px 11px;font-size:10px;font-weight:800}.hero-art{position:relative;min-height:260px;border:1px solid #315166;border-radius:24px;padding:22px;background:linear-gradient(145deg,#15374a,#0c1e2d 68%);overflow:hidden;box-shadow:var(--shadow)}.hero-art:before{content:"";position:absolute;width:230px;height:230px;right:-70px;top:-80px;border-radius:50%;border:1px solid #b7f34a55;box-shadow:0 0 0 28px #b7f34a0d,0 0 0 58px #b7f34a08}.hero-art h3{position:relative;margin:0;font-size:12px;letter-spacing:1.2px;color:var(--muted)}.ticket-preview{position:relative;margin-top:18px;background:#091927;border:1px solid #34566c;border-radius:16px;padding:16px;max-width:390px}.ticket-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:10px}.ticket-top b{color:var(--lime)}.preview-row{padding:13px 0;border-bottom:1px solid #213a4c;display:flex;justify-content:space-between;gap:10px;align-items:center}.preview-row:last-of-type{border-bottom:0}.preview-row strong{font-size:12px}.preview-row small{display:block;color:var(--muted);font-size:9px}.odd{color:var(--lime);font-weight:950;font-size:15px}.preview-total{display:flex;justify-content:space-between;margin-top:10px;color:var(--muted);font-size:10px}.preview-total b{font-size:20px;color:var(--lime)}.section{padding:22px 0 42px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:18px}.section-head h2{margin:4px 0 0;font-size:25px;letter-spacing:-.8px}.section-head p{margin:5px 0 0;color:var(--muted);font-size:11px}.generator-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(340px,.85fr);gap:18px;align-items:start}.panel{background:linear-gradient(145deg,#10263a,#0c1d2c);border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--shadow)}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:17px}.panel-head h3{margin:0;font-size:15px}.subtle{color:var(--muted);font-size:10px}.setting-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}.seg{display:inline-flex;padding:4px;background:#071722;border:1px solid #2a485d;border-radius:12px;gap:3px}.seg button{border:0;background:transparent;color:#a9bece;border-radius:8px;padding:8px 13px;font-size:10px;font-weight:900}.seg button.active{background:var(--lime);color:#19250c}.count-select{background:#071722;color:white;border:1px solid #35556b;border-radius:9px;padding:9px 12px;font-weight:850}.market-label{display:block;color:var(--muted);font-size:9px;letter-spacing:1.4px;font-weight:950;margin:18px 0 10px}.markets{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.market{min-height:58px;border:1px solid #345268;border-radius:12px;background:#0b1d2b;color:#d6e3ec;padding:10px 7px;font-size:10px;font-weight:900;text-align:center}.market span{display:block;font-size:17px;margin-bottom:3px}.market:hover{border-color:var(--lime)}.market.active{background:#263d24;border-color:var(--lime);color:var(--lime)}.market.unavailable{opacity:.43;cursor:not-allowed}.generate-row{display:flex;align-items:center;gap:12px;margin-top:19px}.generate-row .primary{flex:1;padding:14px}.microcopy{font-size:9px;color:var(--muted);margin:11px 0 0}.ticket-panel{position:sticky;top:95px}.ticket-empty{border:1px dashed #3a586d;border-radius:13px;padding:22px;text-align:center;color:var(--muted);font-size:11px}.ticket-empty b{display:block;color:#e9f2f7;font-size:13px;margin-bottom:5px}.selection{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;padding:12px 0;border-bottom:1px solid #294256}.selection:last-child{border-bottom:0}.selection strong{font-size:11px}.selection small{display:block;color:var(--muted);font-size:9px}.selection-tools{display:flex;align-items:center;gap:6px}.selection input{width:65px;background:#071722;color:var(--lime);border:1px solid #35556b;border-radius:8px;padding:7px;font-weight:900;text-align:center}.remove{border:0;background:#2a2630;color:#ff9a9a;border-radius:7px;padding:5px 8px}.ticket-actions{display:flex;gap:8px;margin-top:13px}.ticket-actions button{flex:1;border:1px solid #3a566a;background:#0a1a27;color:#d8e6ef;border-radius:9px;padding:9px;font-size:10px;font-weight:900}.ticket-actions button:hover{border-color:var(--lime);color:var(--lime)}.ticket-summary{border-top:1px solid #294256;margin-top:13px;padding-top:13px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.sum-box{background:#091a27;border-radius:11px;padding:11px}.sum-box small{display:block;color:var(--muted);font-size:9px}.sum-box b{display:block;color:var(--lime);font-size:21px}.stake-row{display:flex;align-items:center;justify-content:space-between;margin-top:12px;color:var(--muted);font-size:10px}.stake-row input{width:105px;background:#071722;color:white;border:1px solid #35556b;border-radius:8px;padding:8px;text-align:right}.matches-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:25px 0 12px}.matches-head h3{font-size:15px;margin:0}.matches-head span{font-size:10px;color:var(--muted)}.match-list{display:grid;gap:9px}.match-card{display:grid;grid-template-columns:120px minmax(0,1fr) 105px;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;border:1px solid #29465a;background:#0e2233}.match-league{font-size:9px;color:var(--muted)}.match-league b{display:block;color:#dce8ef;font-size:10px}.match-teams{display:grid;grid-template-columns:1fr 32px 1fr;gap:8px;align-items:center;text-align:center}.club{font-size:11px;font-weight:900}.versus{color:var(--muted);font-size:9px}.match-time{text-align:right}.match-time b{display:block;color:var(--lime);font-size:12px}.match-time small{font-size:9px;color:var(--muted)}.notice{padding:15px;border-radius:13px;border:1px solid #4a5c35;background:#182a1d;color:#b9cba9;font-size:10px;margin-top:15px}.notice b{color:var(--lime)}.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.info-card{padding:18px;border:1px solid var(--line);border-radius:15px;background:#0d2030}.info-card .icon{font-size:22px}.info-card h3{font-size:12px;margin:8px 0 5px}.info-card p{margin:0;color:var(--muted);font-size:10px}.footer{border-top:1px solid #203c50;padding:22px 0 35px;color:var(--muted);font-size:10px}.footer-inner{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}.status{color:var(--muted);font-size:10px}.status.error{color:#ff9d9d}.status.ok{color:var(--lime)}.hide{display:none!important}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.hero-art{min-height:220px}.generator-grid{grid-template-columns:1fr}.ticket-panel{position:static}.links{gap:13px}.match-card{grid-template-columns:95px minmax(0,1fr) 75px}}
+@media(max-width:600px){.wrap{padding:0 14px}.nav{height:64px}.brand{font-size:18px}.brand small{font-size:8px}.links{display:none}.navcta{padding:10px 12px;font-size:10px}.hero{padding:35px 0 20px;gap:18px}.hero h1{font-size:43px}.hero p{font-size:13px}.hero-art{min-height:212px;padding:16px}.section{padding:17px 0 32px}.section-head h2{font-size:21px}.panel{padding:15px}.markets{grid-template-columns:repeat(2,minmax(0,1fr))}.market{min-height:53px}.setting-row{align-items:flex-start}.match-card{grid-template-columns:1fr auto;gap:10px}.match-league{grid-column:1/-1}.match-teams{grid-column:1;grid-row:2}.match-time{grid-column:2;grid-row:2}.info-grid{grid-template-columns:1fr}.generate-row{align-items:stretch}.section-head{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap nav"><a class="brand" href="#accueil"><div class="ball">⚽</div><div>GOD04 <span>PRONOS</span><small>FOOTBALL · ANALYSES · ACCA</small></div></a><nav class="links"><a href="#generator">Générateur ACCA</a><a href="#rencontres">Prédictions</a><a href="#calculateur">Calculateur</a><a href="#contact">Contact</a></nav><a class="navcta" href="#generator">Créer mon ticket ↗</a></div></header>
+<main id="accueil" class="wrap">
+<section class="hero"><div><div class="kicker">Générateur de tickets combinés</div><h1>Construis ton<br><span>ticket ACCA.</span></h1><p>Choisis ton marché, sélectionne le nombre de rencontres et génère un combiné à partir des analyses disponibles. Les pronostics sans données vérifiables ne sont pas ajoutés.</p><div class="hero-tags"><span class="tag">✦ Analyses football</span><span class="tag">⚡ Matchs actualisés</span><span class="tag">▦ Calculateur combiné</span></div></div>
+<div class="hero-art"><h3>APERÇU · TON TICKET GODWIN</h3><div class="ticket-preview"><div class="ticket-top"><span>GOD04 · ACCA BUILDER</span><b>EN CONSTRUCTION</b></div><div class="preview-row"><div><strong>Victoire domicile</strong><small>Marché 1X2 · analyse API</small></div><span class="odd">1.72</span></div><div class="preview-row"><div><strong>Les deux équipes marquent</strong><small>Marché BTTS · analyse API</small></div><span class="odd">1.85</span></div><div class="preview-row"><div><strong>Double chance 1X</strong><small>Marché double chance · analyse API</small></div><span class="odd">1.34</span></div><div class="preview-total"><span>Exemple visuel uniquement · cotes non réelles</span><b>ACCA</b></div></div></div></section>
+<section class="section" id="generator"><div class="section-head"><div><div class="kicker">Personnalise ton combiné</div><h2>Générateur ACCA</h2><p>Les sélections dépendent des données réellement renvoyées par l'API.</p></div><div class="status" id="apiStatus">Connexion aux données…</div></div>
+<div class="generator-grid"><div class="panel"><div class="panel-head"><h3>Paramètres du ticket</h3><span class="subtle">ÉTAPE 01 / 02</span></div><div class="setting-row"><div><div class="subtle" style="margin-bottom:7px">PÉRIODE DES MATCHS</div><div class="seg"><button class="active" data-period="today">Aujourd'hui</button><button data-period="tomorrow">Demain</button></div></div><div><div class="subtle" style="margin-bottom:7px">NOMBRE DE SÉLECTIONS</div><select class="count-select" id="selectionCount"><option value="2">2 matchs</option><option value="3" selected>3 matchs</option><option value="4">4 matchs</option><option value="5">5 matchs</option></select></div></div>
+<label class="market-label">CHOISIR LE MARCHÉ</label><div class="markets" id="markets"><button class="market active" data-market="1x2"><span>⚽</span>1X2</button><button class="market" data-market="ou"><span>↕</span>Sous / Sur 2,5</button><button class="market" data-market="btts"><span>◎</span>BTTS</button><button class="market" data-market="dc"><span>⇄</span>Double chance</button><button class="market unavailable" data-market="htft" title="Donnée non fournie par le module actuel"><span>◷</span>HT / FT</button><button class="market" data-market="score"><span>▦</span>Score exact</button><button class="market unavailable" data-market="corners" title="Donnée non fournie par le module actuel"><span>◉</span>Corners</button><button class="market unavailable" data-market="handicap" title="Donnée non fournie par le module actuel"><span>⇥</span>Handicap</button></div>
+<div class="generate-row"><button class="primary" id="generate">✦ Générer mon ticket ACCA</button></div><p class="microcopy">Les marchés HT/FT, corners et handicap restent désactivés tant que le flux connecté ne fournit pas de données suffisantes. Aucun pronostic fictif n'est ajouté.</p><div id="generatorMessage" class="notice hide"></div></div>
+<aside class="panel ticket-panel" id="calculateur"><div class="panel-head"><h3>Mon ticket combiné</h3><span class="subtle" id="ticketCount">0 sélection</span></div><div id="ticketItems" class="ticket-empty"><b>Ton ticket est vide</b>Choisis un marché puis lance la génération ACCA.</div><div id="ticketCalc" class="hide"><div class="ticket-summary"><div class="sum-box"><small>COTE COMBINÉE</small><b id="combinedOdd">—</b></div><div class="sum-box"><small>GAIN POTENTIEL</small><b id="potentialWin">—</b></div></div><div class="stake-row"><label for="stake">Mise (FCFA)</label><input id="stake" type="number" min="0" step="100" value="1000"></div><div class="ticket-actions"><button id="copyTicket">Copier le ticket</button><button id="clearTicket">Vider</button></div></div></aside></div>
+<div class="matches-head" id="rencontres"><h3>Rencontres disponibles</h3><span id="matchCount">Chargement du calendrier…</span></div><div class="match-list" id="matches"><div class="ticket-empty">Chargement des rencontres…</div></div>
+<div class="notice"><b>À savoir :</b> une estimation statistique n'est jamais une garantie de résultat. Les cotes du ticket doivent être saisies manuellement lorsqu'aucune cote vérifiée n'est renvoyée par l'API. Joue uniquement si tu as 18 ans ou plus et fixe une limite de mise.</div></section>
+<section class="section"><div class="section-head"><div><div class="kicker">Nos outils</div><h2>Plus qu'un générateur</h2><p>Un espace simple pour préparer et vérifier tes tickets.</p></div></div><div class="info-grid"><article class="info-card"><div class="icon">⚽</div><h3>Pronostics football</h3><p>Marchés 1X2, double chance, BTTS et score exact estimé lorsque les données sont disponibles.</p></article><article class="info-card"><div class="icon">▦</div><h3>Calculateur d'accumulateurs</h3><p>Entre les cotes de tes sélections pour calculer la cote combinée et le gain potentiel selon ta mise.</p></article><article class="info-card"><div class="icon">↻</div><h3>Rencontres actualisées</h3><p>Le calendrier du jour et du lendemain est récupéré depuis le service de données connecté.</p></article></div></section>
+</main>
+<footer class="footer" id="contact"><div class="wrap footer-inner"><div><b style="color:var(--lime)">GOD04 PRONOS</b><br>Analyses · Pronostics · Résultats</div><div>Contact : ajoute ici ton adresse ou ton canal officiel.</div><div>© 2026 GOD04 PRONOS · 18+ · Jeu responsable</div></div></footer>
+<script>
 'use strict';
-
-// GOD04 PRONOS — chargement robuste des rencontres API-Football
-const $ = (selector) => document.querySelector(selector);
-const $$ = (selector) => [...document.querySelectorAll(selector)];
-const dateInput = $('#date');
-const API_FIXTURES = '/.netlify/functions/fixtures';
-
-function lomeDate(date = new Date()) {
-  const parts = new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Africa/Lome', year: 'numeric', month: '2-digit', day: '2-digit'
-  }).formatToParts(date);
-  const get = (type) => parts.find((part) => part.type === type)?.value;
-  return `${get('year')}-${get('month')}-${get('day')}`;
-}
-function shiftDate(isoDate, days) {
-  const [year, month, day] = isoDate.split('-').map(Number);
-  const date = new Date(Date.UTC(year, month - 1, day + days, 12));
-  return date.toISOString().slice(0, 10);
-}
-function prettyDate(isoDate, options = { weekday: 'long', day: 'numeric', month: 'long' }) {
-  return new Date(`${isoDate}T12:00:00Z`).toLocaleDateString('fr-FR', { ...options, timeZone: 'Africa/Lome' });
-}
-function esc(value) {
-  return String(value ?? '').replace(/[&<>"']/g, (char) => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-  })[char]);
-}
-
-let allMatches = [];
-let yesterdayMatches = [];
-let filter = 'all';
-let analysed = 0;
-
-function statusOf(match) {
-  const short = String(match?.fixture?.status?.short || '').toUpperCase();
-  if (['1H', '2H', 'HT', 'ET', 'P', 'LIVE', 'INT', 'BT'].includes(short)) return 'live';
-  if (['FT', 'AET', 'PEN', 'AWD', 'WO'].includes(short)) return 'finished';
-  return 'upcoming';
-}
-function timeOf(match) {
-  const date = match?.fixture?.date;
-  if (!date) return 'Heure inconnue';
-  const parsed = new Date(date);
-  if (Number.isNaN(parsed.getTime())) return 'Heure inconnue';
-  return parsed.toLocaleTimeString('fr-FR', {
-    hour: '2-digit', minute: '2-digit', timeZone: 'Africa/Lome'
-  });
-}
-function crest(team, name) {
-  const logo = team?.logo;
-  const initials = String(name || '?').split(/\s+/).map((part) => part[0]).join('').slice(0, 3).toUpperCase();
-  return `<div class="crest">${logo
-    ? `<img src="${esc(logo)}" alt="" loading="lazy" onerror="this.remove();this.parentNode.textContent='${esc(initials)}'">`
-    : esc(initials)}</div>`;
-}
-function cardHTML(match) {
-  const id = String(match?.fixture?.id ?? '');
-  const home = match?.teams?.home?.name || 'V1';
-  const away = match?.teams?.away?.name || 'V2';
-  const status = statusOf(match);
-  const hasScore = match?.goals?.home != null && match?.goals?.away != null;
-  const score = hasScore ? `${match.goals.home} - ${match.goals.away}` : 'VS';
-  const stateLabel = status === 'live' ? 'EN DIRECT' : status === 'finished' ? 'TERMINÉ' : 'À VENIR';
-  return `<article class="match" data-id="${esc(id)}">
-    <div class="matchmeta">
-      <span class="league"><em></em>${esc(match?.league?.country || 'Football')} · ${esc(match?.league?.name || 'Compétition')}</span>
-      <span class="status ${status}">${timeOf(match)} · ${stateLabel}</span>
-    </div>
-    <div class="teams">
-      <div class="team">${crest(match?.teams?.home, home)}<div><div class="teamname">${esc(home)}</div><small>V1 · Domicile</small></div></div>
-      <div class="vs"><b>${status === 'upcoming' ? 'VS' : esc(score)}</b>${status === 'upcoming' ? 'MATCH' : ''}</div>
-      <div class="team away">${crest(match?.teams?.away, away)}<div><div class="teamname">${esc(away)}</div><small>V2 · Extérieur</small></div></div>
-    </div>
-    <div class="predictstrip">
-      <div class="pickside"><small>PRONOSTIC GODWIN</small><b id="winner-${esc(id)}">À analyser</b></div>
-      <div class="scorebox"><small>SCORE EXACT ESTIMÉ</small><strong class="nd" id="score-${esc(id)}">N/D</strong></div>
-      <div class="pickside right"><small>TENDANCE</small><b id="prob-${esc(id)}">—</b></div>
-    </div>
-    <div class="chips" id="chips-${esc(id)}"><span class="chip">V1 : ${esc(home)}</span><span class="chip">V2 : ${esc(away)}</span></div>
-    <div class="actionrow">
-      <button class="action" onclick="analyse('${esc(id)}',this)">VOIR L'ANALYSE DE GODWIN</button>
-      <button class="action secondary" onclick="showOdds('${esc(id)}',this)">COTES</button>
-    </div>
-    <div class="analysis" id="analysis-${esc(id)}"></div>
-  </article>`;
-}
-function renderCards(list, element, emptyMessage) {
-  if (!element) return;
-  element.innerHTML = list.length
-    ? list.map(cardHTML).join('')
-    : `<div class="empty">${esc(emptyMessage)}</div>`;
-}
-function render() {
-  const valid = allMatches.filter((match) => statusOf(match) !== 'finished');
-  const visible = valid.filter((match) => filter === 'all' || statusOf(match) === filter);
-  renderCards(visible, $('#matches'), 'Aucun match à venir ou en direct pour cette date. Les rencontres terminées sont retirées de cette liste.');
-  if ($('#count')) $('#count').textContent = visible.length;
-  if ($('#countSide')) $('#countSide').textContent = visible.length;
-  if ($('#live')) $('#live').textContent = valid.filter((match) => statusOf(match) === 'live').length;
-  if ($('#upcoming')) $('#upcoming').textContent = valid.filter((match) => statusOf(match) === 'upcoming').length;
-}
-
-async function fetchDate(isoDate) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 20000);
-  try {
-    const response = await fetch(`${API_FIXTURES}?date=${encodeURIComponent(isoDate)}`, {
-      method: 'GET', headers: { Accept: 'application/json' }, cache: 'no-store', signal: controller.signal
-    });
-    const raw = await response.text();
-    let data;
-    try { data = JSON.parse(raw); }
-    catch { throw new Error(`Réponse non JSON de Netlify (HTTP ${response.status}).`); }
-
-    if (!response.ok) {
-      const detail = data?.error || data?.message || `HTTP ${response.status}`;
-      throw new Error(detail);
-    }
-    if (data?.errors && (Array.isArray(data.errors) ? data.errors.length : Object.keys(data.errors).length)) {
-      throw new Error(`API-Football : ${JSON.stringify(data.errors)}`);
-    }
-    if (!Array.isArray(data?.response)) {
-      throw new Error('Format API inattendu : le tableau « response » est absent.');
-    }
-    return data.response;
-  } catch (error) {
-    if (error.name === 'AbortError') throw new Error('Le serveur met trop de temps à répondre. Réessaie dans un instant.');
-    throw error;
-  } finally {
-    clearTimeout(timeout);
-  }
-}
-
-async function loadYesterday() {
-  const yesterday = shiftDate(lomeDate(), -1);
-  const caption = $('#yesterdaySubtitle');
-  if (caption) caption.textContent = `Rencontres terminées le ${prettyDate(yesterday)}`;
-  const target = $('#yesterdayMatches');
-  if (target) target.innerHTML = '<div class="loading">Chargement des résultats…</div>';
-  try {
-    yesterdayMatches = (await fetchDate(yesterday)).filter((match) => statusOf(match) === 'finished');
-    renderCards(yesterdayMatches, target, 'Aucun résultat terminé enregistré pour hier.');
-  } catch (error) {
-    if (target) target.innerHTML = `<div class="empty">Résultats indisponibles : ${esc(error.message)}</div>`;
-  }
-}
-async function load() {
-  const selectedDate = dateInput?.value || lomeDate();
-  const target = $('#matches');
-  if (target) target.innerHTML = '<div class="loading">Récupération des rencontres…</div>';
-  if ($('#subtitle')) $('#subtitle').textContent = `Calendrier du ${prettyDate(selectedDate)}`;
-  if ($('#matchTitle')) $('#matchTitle').textContent = `Matchs · ${prettyDate(selectedDate)}`;
-  try {
-    allMatches = await fetchDate(selectedDate);
-    render();
-  } catch (error) {
-    if (target) target.innerHTML = `<div class="empty">Impossible de charger les rencontres : ${esc(error.message)}<br><br>Le service Netlify a répondu, mais le chargement a échoué. Vérifie la fonction fixtures et la variable API_FOOTBALL_KEY.</div>`;
-    ['#count', '#countSide', '#live', '#upcoming'].forEach((selector) => {
-      const element = $(selector);
-      if (element) element.textContent = '—';
-    });
-  }
-}
-function setDate(date) {
-  if (dateInput) dateInput.value = date;
-  $$('[data-day]').forEach((button) => button.classList.toggle('active', button.dataset.day === (
-    date === lomeDate() ? 'today' : date === shiftDate(lomeDate(), 1) ? 'tomorrow' : date === shiftDate(lomeDate(), -1) ? 'yesterday' : ''
-  )));
-  filter = 'all';
-  $$('[data-filter]').forEach((button) => button.classList.toggle('active', button.dataset.filter === 'all'));
-  load();
-}
-
-async function analyse(id, button) {
-  const box = $(`#analysis-${CSS.escape(String(id))}`);
-  if (!box) return;
-  if (box.classList.contains('open')) { box.classList.remove('open'); return; }
-  box.classList.add('open');
-  box.innerHTML = '<p>Analyse de Godwin en cours…</p>';
-  if (button) { button.disabled = true; button.textContent = 'ANALYSE EN COURS…'; }
-  try {
-    const response = await fetch(`/.netlify/functions/predictions?fixture=${encodeURIComponent(id)}`, { cache: 'no-store' });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.error || `HTTP ${response.status}`);
-    const prediction = data.prediction;
-    if (!prediction) { box.innerHTML = `<h4>ANALYSE DE GODWIN</h4><p>${esc(data.message || 'Aucune analyse fournie pour ce match.')}</p>`; return; }
-    const match = [...allMatches, ...yesterdayMatches].find((item) => String(item.fixture?.id) === String(id));
-    const home = match?.teams?.home?.name || 'V1';
-    const away = match?.teams?.away?.name || 'V2';
-    const winner = prediction.winner === 'V1' ? home : prediction.winner === 'V2' ? away : prediction.winner === 'Nul' ? 'Match nul' : prediction.winner || 'Non disponible';
-    const doubleChance = prediction.doubleChance === '1X' ? `${home} ou match nul` : prediction.doubleChance === 'X2' ? `${away} ou match nul` : prediction.doubleChance === '12' ? 'V1 ou V2 gagne' : prediction.doubleChance || 'Non disponible';
-    const score = prediction.exactScore || 'N/D';
-    const scoreElement = $(`#score-${CSS.escape(String(id))}`);
-    if (scoreElement) { scoreElement.textContent = score; scoreElement.classList.toggle('nd', !prediction.exactScore); }
-    const winnerElement = $(`#winner-${CSS.escape(String(id))}`);
-    if (winnerElement) winnerElement.textContent = winner;
-    const probabilities = prediction.probabilities || {};
-    const rows = [['Victoire V1', probabilities.home], ['Match nul', probabilities.draw], ['Victoire V2', probabilities.away]]
-      .filter((item) => item[1] !== null && item[1] !== undefined && Number.isFinite(Number(String(item[1]).replace('%', ''))));
-    const best = rows.slice().sort((a, b) => Number(String(b[1]).replace('%', '')) - Number(String(a[1]).replace('%', '')))[0];
-    const trendElement = $(`#prob-${CSS.escape(String(id))}`);
-    if (trendElement) trendElement.textContent = best ? best[0] : 'Non disponible';
-    const bars = rows.map(([label, value]) => {
-      const number = Math.max(0, Math.min(100, Number(String(value).replace('%', ''))));
-      return `<div class="probrow"><span>${esc(label)}</span><div class="bar"><i style="width:${number}%"></i></div><b>${esc(value)}${String(value).includes('%') ? '' : '%'}</b></div>`;
-    }).join('');
-    const chips = [`Double chance : ${doubleChance}`, `Les deux équipes marquent : ${prediction.btts || 'Non disponible'}`];
-    if (prediction.expectedHome != null && prediction.expectedAway != null) chips.push(`Buts attendus : ${prediction.expectedHome} – ${prediction.expectedAway}`);
-    const chipsElement = $(`#chips-${CSS.escape(String(id))}`);
-    if (chipsElement) chipsElement.innerHTML = chips.map((item) => `<span class="chip">${esc(item)}</span>`).join('');
-    box.innerHTML = `<h4>ANALYSE DE GODWIN</h4><p><b>Pronostic :</b> ${esc(winner)}</p><p><b>Score exact estimé :</b> ${esc(score)}</p><p><b>Double chance :</b> ${esc(doubleChance)}</p><p><b>Les deux équipes marquent :</b> ${esc(prediction.btts || 'Non disponible')}</p>${bars}<p>${esc(prediction.advice || 'Estimation statistique calculée à partir des données disponibles.')}</p><p style="color:#8fa2b9;font-size:9px">Les estimations ne garantissent pas le résultat final.</p>`;
-    analysed += 1;
-    if ($('#analysed')) $('#analysed').textContent = analysed;
-  } catch (error) {
-    box.innerHTML = `<h4>ANALYSE INDISPONIBLE</h4><p>${esc(error.message)}</p>`;
-  } finally {
-    if (button) { button.disabled = false; button.textContent = 'VOIR L’ANALYSE DE GODWIN'; }
-  }
-}
-
-async function showOdds(id, button) {
-  const card = button?.closest('.match');
-  const box = card?.querySelector('.analysis');
-  if (!box) return;
-  if (box.classList.contains('open') && box.dataset.kind === 'odds') { box.classList.remove('open'); return; }
-  box.classList.add('open');
-  box.dataset.kind = 'odds';
-  box.innerHTML = '<p>Chargement des cotes…</p>';
-  if (button) button.disabled = true;
-  try {
-    const response = await fetch(`/.netlify/functions/odds?fixture=${encodeURIComponent(id)}`, { cache: 'no-store' });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.error || `HTTP ${response.status}`);
-    const bookmakers = data.bookmakers || [];
-    box.innerHTML = '<h4>COTES DISPONIBLES</h4>' + (bookmakers.length
-      ? bookmakers.map((bookmaker) => `<p><b>${esc(bookmaker.name)}</b></p>${(bookmaker.markets || []).slice(0, 3).map((market) => `<p>${esc(market.market)} : ${(market.odds || []).map((odd) => `${esc(odd.selection)} <b>${esc(odd.odd)}</b>`).join(' · ')}</p>`).join('')}`).join('<hr style="border-color:#293b56">')
-      : '<p>Aucune cote disponible pour cette rencontre.</p>');
-  } catch (error) {
-    box.innerHTML = `<h4>COTES INDISPONIBLES</h4><p>${esc(error.message)}</p>`;
-  } finally {
-    if (button) button.disabled = false;
-  }
-}
-
-// Les attributs onclick déjà présents dans les cartes appellent ces fonctions.
-window.analyse = analyse;
-window.showOdds = showOdds;
-
-function initialise() {
-  if (!dateInput) {
-    console.error('GOD04 PRONOS : élément #date introuvable dans index.html.');
-    return;
-  }
-  dateInput.value = lomeDate();
-  const todayLabel = $('#todayLabel');
-  if (todayLabel) todayLabel.textContent = prettyDate(lomeDate(), { weekday: 'short', day: 'numeric', month: 'short' });
-  $$('[data-filter]').forEach((button) => button.addEventListener('click', () => {
-    $$('[data-filter]').forEach((item) => item.classList.toggle('active', item === button));
-    filter = button.dataset.filter;
-    render();
-  }));
-  $$('[data-day]').forEach((button) => button.addEventListener('click', () => {
-    const today = lomeDate();
-    if (button.dataset.day === 'live') {
-      filter = 'live';
-      $$('[data-filter]').forEach((item) => item.classList.toggle('active', item.dataset.filter === 'live'));
-      render();
-      return;
-    }
-    const days = button.dataset.day === 'yesterday' ? -1 : button.dataset.day === 'tomorrow' ? 1 : 0;
-    setDate(shiftDate(today, days));
-  }));
-  dateInput.addEventListener('change', () => {
-    filter = 'all';
-    $$('[data-filter]').forEach((item) => item.classList.toggle('active', item.dataset.filter === 'all'));
-    $$('[data-day]').forEach((item) => item.classList.remove('active'));
-    load();
-  });
-  $$('[data-nav="yesterday"]').forEach((button) => button.addEventListener('click', () => $('#archive')?.scrollIntoView({ behavior: 'smooth' })));
-  $$('[data-nav="live"]').forEach((button) => button.addEventListener('click', () => {
-    filter = 'live';
-    $$('[data-filter]').forEach((item) => item.classList.toggle('active', item.dataset.filter === 'live'));
-    render();
-    $('#matchs')?.scrollIntoView({ behavior: 'smooth' });
-  }));
-  $$('[data-nav="today"]').forEach((button) => button.addEventListener('click', () => setDate(lomeDate())));
-  $$('[data-scroll]').forEach((button) => button.addEventListener('click', () => $(`#${CSS.escape(button.dataset.scroll)}`)?.scrollIntoView({ behavior: 'smooth' })));
-  $$('[data-day="today"]').forEach((button) => button.classList.add('active'));
-  load();
-  loadYesterday();
-}
-
-if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialise, { once: true });
-else initialise();
+const $=s=>document.querySelector(s);const $$=s=>[...document.querySelectorAll(s)];
+const localDate=d=>{const z=new Date(d.getTime()-d.getTimezoneOffset()*60000);return z.toISOString().slice(0,10)};
+let period='today',market='1x2',fixtures=[],ticket=[],busy=false;
+const marketNames={ '1x2':'1X2','ou':'Sous / Sur 2,5','btts':'BTTS','dc':'Double chance','htft':'HT / FT','score':'Score exact','corners':'Corners','handicap':'Handicap'};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const matchStatus=m=>{const s=m.fixture?.status?.short||'';if(['1H','2H','HT','ET','P','LIVE','INT','BT'].includes(s))return'live';if(['FT','AET','PEN'].includes(s))return'finished';return'upcoming'};
+const matchDate=()=>{const d=new Date();if(period==='tomorrow')d.setDate(d.getDate()+1);return localDate(d)};
+function timeOf(m){return new Date(m.fixture.date).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit',timeZone:'Africa/Lome'})}
+function setStatus(msg,kind=''){const el=$('#apiStatus');el.textContent=msg;el.className='status '+kind}
+async function api(path){const r=await fetch(path,{headers:{'Accept':'application/json'}});let data;try{data=await r.json()}catch{throw new Error('Réponse serveur illisible.')}if(!r.ok)throw new Error(data.error||`Erreur serveur ${r.status}`);return data}
+async function loadFixtures(){setStatus('Connexion aux données…');$('#matches').innerHTML='<div class="ticket-empty">Chargement des rencontres…</div>';try{const data=await api('/.netlify/functions/fixtures?date='+encodeURIComponent(matchDate()));fixtures=(data.response||[]).filter(m=>matchStatus(m)!=='finished').sort((a,b)=>new Date(a.fixture.date)-new Date(b.fixture.date));renderFixtures();setStatus(`${fixtures.length} rencontre(s) trouvée(s)`,'ok')}catch(e){fixtures=[];$('#matches').innerHTML=`<div class="ticket-empty">Impossible de charger les matchs : ${esc(e.message)}<br><br>Vérifie le déploiement Netlify et la variable API_FOOTBALL_KEY.</div>`;$('#matchCount').textContent='Calendrier indisponible';setStatus('Connexion indisponible','error')}}
+function renderFixtures(){const el=$('#matches');$('#matchCount').textContent=`${fixtures.length} rencontre(s) · ${period==='today'?"aujourd'hui":'demain'}`;if(!fixtures.length){el.innerHTML='<div class="ticket-empty">Aucune rencontre à venir pour cette date.</div>';return}el.innerHTML=fixtures.slice(0,40).map(m=>`<article class="match-card"><div class="match-league"><b>${esc(m.league?.name||'Football')}</b>${esc(m.league?.country||'')}</div><div class="match-teams"><div class="club">${esc(m.teams?.home?.name||'Équipe 1')}</div><div class="versus">VS</div><div class="club">${esc(m.teams?.away?.name||'Équipe 2')}</div></div><div class="match-time"><b>${timeOf(m)}</b><small>${matchStatus(m)==='live'?'En direct':'À venir'}</small></div></article>`).join('')}
+function getPredictionCandidate(m,p){const h=m.teams?.home?.name||'Équipe 1',a=m.teams?.away?.name||'Équipe 2';const probs=p.probabilities||{};const val=x=>{const n=Number(String(x??'').replace('%',''));return Number.isFinite(n)?n:null};let label='',confidence=null,detail='';if(market==='1x2'){const opts=[['V1',val(probs.home),h],['Nul',val(probs.draw),'Match nul'],['V2',val(probs.away),a]].filter(x=>x[1]!==null);opts.sort((x,y)=>y[1]-x[1]);if(!opts.length)return null;label=opts[0][2];confidence=opts[0][1];detail='1X2 · '+(confidence+'%');}
+else if(market==='dc'){if(!p.doubleChance)return null;const code=p.doubleChance;label=code==='1X'?`${h} ou nul`:code==='X2'?`${a} ou nul`:'Une des deux équipes gagne';const pair={'1X':val(probs.home)!==null&&val(probs.draw)!==null?val(probs.home)+val(probs.draw):null,'X2':val(probs.away)!==null&&val(probs.draw)!==null?val(probs.away)+val(probs.draw):null,'12':val(probs.home)!==null&&val(probs.away)!==null?val(probs.home)+val(probs.away):null};confidence=pair[code]??null;detail='Double chance '+code+(confidence===null?'':` · ${confidence}%`)}
+else if(market==='btts'){if(!p.btts)return null;label='Les deux équipes marquent : '+p.btts;confidence=null;detail='BTTS · indication API'}
+else if(market==='score'){if(!p.exactScore)return null;label='Score exact estimé : '+p.exactScore;confidence=null;detail='Score exact · estimation';}
+else if(market==='ou'){if(p.expectedHome==null||p.expectedAway==null)return null;const total=Number(p.expectedHome)+Number(p.expectedAway);if(!Number.isFinite(total))return null;label=total>=2.5?'Plus de 2,5 buts':'Moins de 2,5 buts';confidence=null;detail=`Buts attendus cumulés : ${total.toFixed(2)} · estimation`}
+else return null;
+return {fixtureId:m.fixture.id,home:h,away:a,league:m.league?.name||'Football',market:marketNames[market],selection:label,detail,confidence,odd:''};}
+async function generateTicket(){if(busy)return;if(['htft','corners','handicap'].includes(market)){$('#generatorMessage').textContent='Ce marché n’est pas disponible dans les données actuellement connectées. Choisis 1X2, Sous/Sur, BTTS, Double chance ou Score exact.';$('#generatorMessage').classList.remove('hide');return}if(!fixtures.length){$('#generatorMessage').textContent='Aucune rencontre disponible. Vérifie la date ou la connexion API.';$('#generatorMessage').classList.remove('hide');return}busy=true;const btn=$('#generate');btn.disabled=true;btn.textContent='Analyse des rencontres…';$('#generatorMessage').classList.add('hide');const wanted=Number($('#selectionCount').value);const candidates=fixtures.filter(m=>matchStatus(m)==='upcoming').slice(0,Math.min(8,Math.max(wanted+3,wanted)));const found=[];try{for(const m of candidates){if(found.length>=wanted)break;try{const data=await api('/.netlify/functions/predictions?fixture='+encodeURIComponent(m.fixture.id));if(!data.prediction)continue;const pick=getPredictionCandidate(m,data.prediction);if(pick&&!ticket.some(t=>String(t.fixtureId)===String(pick.fixtureId)))found.push(pick)}catch(e){/* Une analyse indisponible n'est pas transformée en pronostic. */}}
+if(found.length){ticket=found;renderTicket();$('#generatorMessage').textContent=`${found.length} sélection(s) ajoutée(s). ${found.length<wanted?'Pas assez de données disponibles pour compléter le ticket.':'Vérifie les sélections et renseigne les cotes avant le calcul.'}`;$('#generatorMessage').classList.remove('hide')}else{$('#generatorMessage').textContent='Aucune prédiction disponible pour ce marché sur les rencontres chargées. Essaie un autre marché ou une autre date.';$('#generatorMessage').classList.remove('hide')}}finally{busy=false;btn.disabled=false;btn.textContent='✦ Générer mon ticket ACCA'}}
+function renderTicket(){const el=$('#ticketItems');$('#ticketCount').textContent=`${ticket.length} sélection(s)`;if(!ticket.length){el.className='ticket-empty';el.innerHTML='<b>Ton ticket est vide</b>Choisis un marché puis lance la génération ACCA.';$('#ticketCalc').classList.add('hide');return}el.className='';el.innerHTML=ticket.map((t,i)=>`<div class="selection"><div><strong>${esc(t.selection)}</strong><small>${esc(t.home)} – ${esc(t.away)} · ${esc(t.market)}</small><small>${esc(t.detail)}</small></div><div class="selection-tools"><input type="number" min="1.01" step="0.01" placeholder="Cote" aria-label="Cote pour sélection ${i+1}" value="${esc(t.odd)}" data-odd="${i}"><button class="remove" data-remove="${i}" aria-label="Retirer">×</button></div></div>`).join('');$$('[data-odd]').forEach(input=>input.addEventListener('input',()=>{ticket[Number(input.dataset.odd)].odd=input.value;calcTicket()}));$$('[data-remove]').forEach(btn=>btn.addEventListener('click',()=>{ticket.splice(Number(btn.dataset.remove),1);renderTicket()}));$('#ticketCalc').classList.remove('hide');calcTicket()}
+function calcTicket(){const odds=ticket.map(t=>Number(t.odd));const complete=odds.length&&odds.every(x=>Number.isFinite(x)&&x>1);const combined=complete?odds.reduce((a,b)=>a*b,1):null;const stake=Math.max(0,Number($('#stake').value)||0);$('#combinedOdd').textContent=combined?combined.toFixed(2):'À saisir';$('#potentialWin').textContent=combined?(combined*stake).toLocaleString('fr-FR',{maximumFractionDigits:0})+' F':'—';}
+function clearTicket(){ticket=[];renderTicket()}
+function copyTicket(){if(!ticket.length)return;const text=['GOD04 PRONOS — TICKET ACCA',...ticket.map((t,i)=>`${i+1}. ${t.home} - ${t.away}\n${t.market}: ${t.selection}${t.odd?' | Cote: '+t.odd:''}`),'','Les pronostics sont des estimations, pas des garanties.'].join('\n');if(navigator.clipboard?.writeText){navigator.clipboard.writeText(text).then(()=>{$('#copyTicket').textContent='Copié ✓';setTimeout(()=>$('#copyTicket').textContent='Copier le ticket',1600)}).catch(()=>alert(text))}else alert(text)}
+$$('[data-period]').forEach(btn=>btn.addEventListener('click',()=>{$$('[data-period]').forEach(x=>x.classList.toggle('active',x===btn));period=btn.dataset.period;ticket=[];renderTicket();loadFixtures()}));$$('[data-market]').forEach(btn=>btn.addEventListener('click',()=>{if(btn.classList.contains('unavailable')){market=btn.dataset.market;$$('[data-market]').forEach(x=>x.classList.toggle('active',x===btn));$('#generatorMessage').textContent='Ce marché est affiché dans le modèle, mais les données nécessaires ne sont pas fournies par le service connecté. Aucun pronostic ne sera inventé.';$('#generatorMessage').classList.remove('hide');return}$$('[data-market]').forEach(x=>x.classList.toggle('active',x===btn));market=btn.dataset.market;$('#generatorMessage').classList.add('hide')}));$('#generate').addEventListener('click',generateTicket);$('#stake').addEventListener('input',calcTicket);$('#clearTicket').addEventListener('click',clearTicket);$('#copyTicket').addEventListener('click',copyTicket);
+loadFixtures();
+</script>
+</body>
+</html>
