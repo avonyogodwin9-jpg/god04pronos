@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GOD04 PRONOS</title>
+<style>
+body{margin:0;background:#07111f;color:white;font-family:Arial;text-align:center}
+header{background:#10243a;padding:25px;border-bottom:3px solid #39e58c}
+h1{color:#39e58c}
+main{padding:20px}
+button{background:#39e58c;border:0;padding:12px 20px;border-radius:8px;font-weight:bold}
+.card{background:#11243a;border:1px solid #39e58c;border-radius:12px;padding:15px;margin:15px auto;max-width:500px}
+.score{font-size:25px;color:#39e58c;font-weight:bold}
+</style>
+</head>
+<body>
+<header>
+<h1>GOD04 PRONOS</h1>
+<p>FOOTBALL • ANALYSES • PRONOSTICS</p>
+</header>
+<main>
+<h2>⚽ Matchs du jour</h2>
+<p>Les rencontres disponibles seront affichées ici.</p>
+<label for="date">Choisir une date :</label>
+<input id="date" type="date">
+<button onclick="charger()">Afficher les matchs</button>
+<div id="matchs">Chargement des matchs...</div>
+</main>
+<script>
+const dateInput=document.getElementById("date");
+dateInput.value=new Date().toLocaleDateString("en-CA");
+async function charger(){
+ const zone=document.getElementById("matchs");
+ zone.innerHTML="Chargement...";
+ try{
+  const r=await fetch("/.netlify/functions/fixtures?date="+dateInput.value);
+  if(!r.ok)throw new Error("Erreur serveur");
+  const data=await r.json();
+  if(!data.response || !data.response.length){
+   zone.innerHTML="Aucun match disponible pour cette date.";
+   return;
+  }
+  zone.innerHTML=data.response.map(m=>`
+   <div class="card">
+   <h3>${m.teams.home.name} - ${m.teams.away.name}</h3>
+   <p>${m.league.name}</p>
+   <p>${new Date(m.fixture.date).toLocaleString("fr-FR")}</p>
+   <div class="score">${m.goals.home??"-"} - ${m.goals.away??"-"}</div>
+   </div>`).join("");
+ }catch(e){zone.innerHTML="Impossible de charger les matchs. Réessaie plus tard.";}
+}
+charger();
+</script>
+</body>
+</html>
