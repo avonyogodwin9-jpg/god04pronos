@@ -86,7 +86,7 @@ function matchCard(match) {
   return `<article class="match" data-match="${esc(id)}" data-search="${esc(`${home.name||''} ${away.name||''} ${match.league?.name||''} ${match.league?.country||''}`.toLowerCase())}">
     <div class="matchtop"><div class="league">${match.league?.logo ? `<img src="${esc(match.league.logo)}" alt="" loading="lazy">` : ''}<span>${esc(match.league?.country || 'Football')} · ${esc(match.league?.name || 'Compétition')}</span></div><span class="kickoff">${state === 'finished' ? 'RÉSULTAT' : kickoff(match)}</span></div>
     <div class="teams"><div class="team">${crest(home)}<div><div class="teamname">${esc(home.name || 'Équipe 1')}</div><small>V1 · Domicile</small></div></div><div class="vs">${state === 'finished' ? `${match.goals?.home ?? '—'} - ${match.goals?.away ?? '—'}` : state === 'live' ? `${match.goals?.home ?? 0} - ${match.goals?.away ?? 0}` : 'VS'}</div><div class="team away">${crest(away)}<div><div class="teamname">${esc(away.name || 'Équipe 2')}</div><small>V2 · Extérieur</small></div></div></div>
-    <div class="matchfoot"><span class="matchstatus ${state}">${when}${state === 'live' && match.fixture?.status?.elapsed != null ? ` · ${match.fixture.status.elapsed}′` : ''}</span>${state === 'finished' ? '<span class="matchstatus">Résultat final</span>' : `<button class="predictbtn" data-predict="${esc(id)}">Voir le pronostic gratuit ↗</button>`}</div>
+    <div class="matchfoot"><span class="matchstatus ${state}">${when}${state === 'live' && match.fixture?.status?.elapsed != null ? ` · ${match.fixture.status.elapsed}′` : ''}</span>${state === 'finished' ? '<span class="matchstatus">Résultat final</span>' : `<button class="predictbtn" data-predict="${esc(id)}" data-home="${esc(home.id || '')}" data-away="${esc(away.id || '')}">Voir le pronostic gratuit ↗</button>`}</div>
     <div class="analysis" id="analysis-${esc(id)}"></div></article>`;
 }
 function visibleFixtures() {
@@ -102,9 +102,10 @@ function render() {
   const shown = visibleFixtures();
   $('#matches').innerHTML = shown.length ? shown.map(matchCard).join('') : `<div class="empty">Aucune rencontre ne correspond à ces critères pour cette date.<br><br><b>Essaie une autre date ou enlève un filtre.</b></div>`;
   $('#matchCount').textContent = `${shown.length} MATCH${shown.length > 1 ? 'S' : ''}`;
-  $('#sideCount').textContent = fixtures.length;
-  $('#sideLive').textContent = fixtures.filter(x => statusOf(x) === 'live').length;
-  $('#sideUpcoming').textContent = fixtures.filter(x => statusOf(x) === 'upcoming').length;
+  // Les compteurs reflètent les rencontres réellement visibles après filtres et recherche.
+  $('#sideCount').textContent = shown.length;
+  $('#sideLive').textContent = shown.filter(x => statusOf(x) === 'live').length;
+  $('#sideUpcoming').textContent = shown.filter(x => statusOf(x) === 'upcoming').length;
 }
 async function getFixtures(date) {
   const response = await fetch(`/.netlify/functions/fixtures?date=${encodeURIComponent(date)}&timezone=${encodeURIComponent(TZ)}`, {headers:{Accept:'application/json'}});
@@ -138,7 +139,7 @@ async function loadDay(day) {
     $('#sideCount').textContent = '—'; $('#sideLive').textContent = '—'; $('#sideUpcoming').textContent = '—';
   }
 }
-async function loadPrediction(id, button) {
+async function loadPrediction(id, homeId, awayId, button) {
   const box = $(`#analysis-${CSS.escape(id)}`);
   if (!box) return;
   if (box.classList.contains('open')) { box.classList.remove('open'); button.textContent = 'Voir le pronostic gratuit ↗'; return; }
@@ -146,11 +147,12 @@ async function loadPrediction(id, button) {
   box.innerHTML = '<div class="loading">Analyse statistique en cours…</div>';
   button.disabled = true; button.textContent = 'Analyse…';
   try {
-    const response = await fetch(`/.netlify/functions/predictions?fixture=${encodeURIComponent(id)}`, {headers:{Accept:'application/json'}});
+    const predictionUrl = `/.netlify/functions/predictions?fixture=${encodeURIComponent(id)}&home=${encodeURIComponent(homeId)}&away=${encodeURIComponent(awayId)}`;
+    const response = await fetch(predictionUrl, {headers:{Accept:'application/json'}});
     const payload = await response.json();
     if (!response.ok) throw new Error(payload.error || `Erreur HTTP ${response.status}`);
     const p = payload.prediction;
-    if (!p) { box.innerHTML = `<h3>PRONOSTIC GRATUIT</h3><p class="advice">${esc(payload.message || 'Aucune analyse statistique disponible pour cette rencontre.')}</p>`; return; }
+    if (!p) { const samples = payload.availableSamples ? `<p class="advice">Matchs récents exploitables : équipe à domicile ${esc(payload.availableSamples.home)} · équipe à l'extérieur ${esc(payload.availableSamples.away)}.</p>` : ''; box.innerHTML = `<h3>PRONOSTIC GRATUIT</h3><p class="advice">${esc(payload.message || 'Aucune analyse statistique disponible pour cette rencontre.')}</p>${samples}`; return; }
     const probs = p.probabilities || {};
     const card = button.closest('.match');
     const teams = card?.querySelectorAll('.teamname');
@@ -161,7 +163,8 @@ async function loadPrediction(id, button) {
     const picks = `<div class="pick"><small>ISSUE PRINCIPALE</small><strong>${esc(winner)}</strong></div><div class="pick"><small>DOUBLE CHANCE</small><strong>${esc(dc)}</strong></div><div class="pick score"><small>SCORE EXACT ESTIMÉ</small><strong>${esc(p.exactScore || 'N/D')}</strong></div>`;
     const rows = [['Victoire V1',probs.home],['Match nul',probs.draw],['Victoire V2',probs.away]].filter(row => row[1] !== null && row[1] !== undefined && Number.isFinite(Number(row[1])));
     const bars = rows.map(([label,value]) => { const n = Math.max(0, Math.min(100, Number(value))); return `<div class="prob"><span>${label}</span><div class="bar"><i style="width:${n}%"></i></div><b>${esc(value)}${String(value).includes('%') ? '' : '%'}</b></div>`; }).join('');
-    box.innerHTML = `<h3>PRONOSTIC GRATUIT · ANALYSE STATISTIQUE</h3><div class="pickgrid">${picks}</div>${p.btts ? `<p class="advice"><b>Les deux équipes marquent :</b> ${esc(p.btts)}</p>` : ''}${p.expectedHome !== null && p.expectedHome !== undefined && p.expectedAway !== null && p.expectedAway !== undefined ? `<p class="advice"><b>Buts attendus :</b> ${esc(p.expectedHome)} – ${esc(p.expectedAway)}</p>` : ''}${bars ? `<div class="probs">${bars}</div>` : '<p class="advice">Les pourcentages 1X2 ne sont pas disponibles pour ce match.</p>'}<p class="advice">${esc(p.advice || 'Estimation calculée à partir des données statistiques disponibles.')}</p><p class="advice">Le score exact est une estimation, pas un résultat certain.</p>`;
+    const sourceNote = p.source === 'recent_form' ? `<p class="advice"><b>Analyse de secours :</b> basée sur les ${esc(p.sample?.home ?? '?')} derniers matchs terminés à domicile et les ${esc(p.sample?.away ?? '?')} derniers à l'extérieur. Modèle indicatif, moins complet que l'analyse API.</p>` : '<p class="advice">Source : analyse statistique API-Football.</p>';
+    box.innerHTML = `<h3>PRONOSTIC GRATUIT · ANALYSE STATISTIQUE</h3>${sourceNote}<div class="pickgrid">${picks}</div>${p.btts ? `<p class="advice"><b>Les deux équipes marquent :</b> ${esc(p.btts)}</p>` : ''}${p.expectedHome !== null && p.expectedHome !== undefined && p.expectedAway !== null && p.expectedAway !== undefined ? `<p class="advice"><b>Buts attendus :</b> ${esc(p.expectedHome)} – ${esc(p.expectedAway)}</p>` : ''}${bars ? `<div class="probs">${bars}</div>` : '<p class="advice">Les pourcentages 1X2 ne sont pas disponibles pour ce match.</p>'}<p class="advice">${esc(p.advice || 'Estimation calculée à partir des données statistiques disponibles.')}</p><p class="advice">Le score exact est une estimation, pas un résultat certain.</p>`;
   } catch (error) {
     box.innerHTML = `<h3>ANALYSE INDISPONIBLE</h3><p class="advice">${esc(error.message)}</p>`;
   } finally {
@@ -173,7 +176,7 @@ $$('.tab').forEach(button => button.addEventListener('click', () => loadDay(butt
 $$('.filter').forEach(button => button.addEventListener('click', () => { activeFilter = button.dataset.filter; $$('.filter').forEach(x => x.classList.toggle('active', x === button)); render(); }));
 $('#search').addEventListener('input', render);
 $('#refresh').addEventListener('click', () => loadDay(selectedDay));
-$('#matches').addEventListener('click', event => { const button = event.target.closest('[data-predict]'); if (button) loadPrediction(button.dataset.predict, button); });
+$('#matches').addEventListener('click', event => { const button = event.target.closest('[data-predict]'); if (button) loadPrediction(button.dataset.predict, button.dataset.home, button.dataset.away, button); });
 $('#todayLabel').textContent = prettyDate(lomeDate(), {weekday:'short',day:'numeric',month:'short',year:'numeric'});
 $('#year').textContent = new Date().getFullYear();
 loadDay('today');
