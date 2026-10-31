@@ -21,17 +21,29 @@ function toNumber(value) {
 function factorial(n) { let out = 1; for (let i = 2; i <= n; i++) out *= i; return out; }
 function poisson(k, lambda) { return Math.exp(-lambda) * Math.pow(lambda, k) / factorial(k); }
 
-async function apiGet(path, params, key, ttl = 300) {
+// Cache API native de Cloudflare : les réponses réussies sont conservées par URL.
+// Les erreurs (dont la limite API) ne sont jamais mises en cache.
+function cacheTtl(path, params) {
+  if (path === '/fixtures') return params.team ? 21600 : 120;
+  if (path === '/predictions') return 21600;
+  if (path === '/odds') return 900;
+  return 0;
+}
+
+async function apiGet(path, params, key) {
   const url = new URL(`${API_BASE}${path}`);
   for (const [k, v] of Object.entries(params)) {
     if (v !== undefined && v !== null && v !== '') url.searchParams.set(k, String(v));
   }
 
-  // Cache partagé Cloudflare : une même URL ne consomme pas une requête API à chaque visite.
+  const ttl = cacheTtl(path, params);
   const cache = caches.default;
-  const cacheKey = new Request(url.toString(), { method: 'GET' });
-  const cached = await cache.match(cacheKey);
-  if (cached) return cached.json();
+  const cacheRequest = new Request(url.toString(), { method: 'GET' });
+
+  if (ttl > 0) {
+    const cached = await cache.match(cacheRequest);
+    if (cached) return cached.json();
+  }
 
   const res = await fetch(url, {
     headers: { 'x-apisports-key': key, Accept: 'application/json' }
@@ -41,17 +53,26 @@ async function apiGet(path, params, key, ttl = 300) {
   try { body = JSON.parse(raw); }
   catch { throw new Error(`Réponse API-Football invalide (HTTP ${res.status}).`); }
 
-  const hasApiError = body?.errors && Object.keys(body.errors).length;
-  if (!res.ok || hasApiError) {
-    const details = hasApiError ? JSON.stringify(body.errors) : `HTTP ${res.status}`;
+  if (!res.ok) {
+    const details = body?.errors && Object.keys(body.errors).length
+      ? JSON.stringify(body.errors)
+      : `HTTP ${res.status}`;
     throw new Error(`API-Football : ${details}`);
   }
+  if (body?.errors && Object.keys(body.errors).length) {
+    throw new Error(`API-Football : ${JSON.stringify(body.errors)}`);
+  }
 
-  // Ne mettre en cache que les réponses valides, avec une durée selon le type de données.
-  const cacheResponse = new Response(JSON.stringify(body), {
-    headers: { 'Content-Type': 'application/json', 'Cache-Control': `public, max-age=${ttl}` }
-  });
-  await cache.put(cacheKey, cacheResponse);
+  if (ttl > 0) {
+    const cacheResponse = new Response(raw, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Cache-Control': `public, max-age=${ttl}`
+      }
+    });
+    await cache.put(cacheRequest, cacheResponse);
+  }
   return body;
 }
 
@@ -71,8 +92,8 @@ async function fixturesHandler(request, env) {
     return json({ error: 'Date invalide. Format attendu : AAAA-MM-JJ.' }, 400);
   }
   try {
-    const data = await apiGet('/fixtures', { date, timezone }, key, 300);
-    return json(data, 200, 'public, max-age=60, stale-while-revalidate=300');
+    const data = await apiGet('/fixtures', { date, timezone }, key);
+    return json(data, 200, 'public, max-age=120, stale-while-revalidate=300');
   } catch (e) {
     console.error('fixtures handler:', e);
     return json({ error: e.message || 'Impossible de récupérer les rencontres.' }, 502);
@@ -80,7 +101,7 @@ async function fixturesHandler(request, env) {
 }
 
 async function getRecentForm(teamId, key) {
-  const data = await apiGet('/fixtures', { team: teamId, last: 5, timezone: TZ }, key, 21600);
+  const data = await apiGet('/fixtures', { team: teamId, last: 5, timezone: TZ }, key);
   const rows = Array.isArray(data.response) ? data.response : [];
   const form = [];
   for (const m of rows) {
@@ -128,13 +149,10 @@ function recentFormPrediction(homeForm, awayForm) {
   ].sort((x, y) => y.value - x.value)[0].label;
   const high = Math.max(ph, pd, pa);
   return {
-    source: 'recent_form',
-    winner: high === ph ? 'V1' : high === pd ? 'Nul' : 'V2',
-    doubleChance: dc,
-    exactScore: `${best.h}-${best.a}`,
+    source: 'recent_form', winner: high === ph ? 'V1' : high === pd ? 'Nul' : 'V2',
+    doubleChance: dc, exactScore: `${best.h}-${best.a}`,
     btts: btts >= 0.5 ? 'OUI' : 'NON',
-    expectedHome: Number(eh.toFixed(2)),
-    expectedAway: Number(ea.toFixed(2)),
+    expectedHome: Number(eh.toFixed(2)), expectedAway: Number(ea.toFixed(2)),
     probabilities: { home: ph, draw: pd, away: pa },
     sample: { home: homeForm.length, away: awayForm.length },
     advice: `Estimation indicative basée sur ${homeForm.length} matchs récents de l'équipe à domicile et ${awayForm.length} de l'équipe à l'extérieur. Ce modèle simple ne garantit aucun résultat.`
@@ -153,7 +171,7 @@ async function predictionsHandler(request, env) {
   }
   let predictionError = null;
   try {
-    const data = await apiGet('/predictions', { fixture }, key, 21600);
+    const data = await apiGet('/predictions', { fixture }, key);
     const raw = data.response?.[0]?.predictions;
     if (raw) {
       const pct = raw.percent || {};
@@ -185,13 +203,7 @@ async function predictionsHandler(request, env) {
         } }, 200, 'public, max-age=21600, stale-while-revalidate=3600');
       }
     }
-  } catch (e) {
-    predictionError = e.message;
-    // En cas de limite API, ne pas lancer deux appels supplémentaires pour la forme des équipes.
-    if (/rateLimit|Trop de requêtes|Too many requests/i.test(predictionError)) {
-      return json({ error: predictionError, retryAfter: 'Attends quelques minutes avant un nouvel essai.' }, 429, 'no-store');
-    }
-  }
+  } catch (e) { predictionError = e.message; }
   try {
     const [hf, af] = await Promise.all([getRecentForm(home, key), getRecentForm(away, key)]);
     const fallback = recentFormPrediction(hf, af);
@@ -214,7 +226,7 @@ async function oddsHandler(request, env) {
   const fixture = new URL(request.url).searchParams.get('fixture');
   if (!fixture || !/^\d+$/.test(fixture)) return json({ error: 'Identifiant du match invalide.' }, 400);
   try {
-    const data = await apiGet('/odds', { fixture }, key, 900);
+    const data = await apiGet('/odds', { fixture }, key);
     const rows = Array.isArray(data.response) ? data.response : [];
     const bookmakers = rows.flatMap(row => (row.bookmakers || []).map(book => ({
       name: book.name || 'Bookmaker',
