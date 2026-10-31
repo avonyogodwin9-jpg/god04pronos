@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#081a2b">
+<meta name="description" content="GOD04 PRONOS : matchs du jour, analyses et pronostics football gratuits.">
+<title>GOD04 PRONOS | Pronostics gratuits du jour</title>
+<style>
+:root{--bg:#081522;--panel:#102438;--panel2:#142e45;--line:#29445c;--text:#f3f8fc;--muted:#a8bac9;--green:#a3ef55;--green2:#6bd343;--gold:#f0c66a;--red:#ff7d83;--blue:#63c9ff;--radius:18px;--shadow:0 18px 55px #0005}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 80% -10%,#173c4f 0,transparent 35%),var(--bg);color:var(--text);font:14px/1.5 Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}button,input{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}.wrap{width:min(1240px,calc(100% - 36px));margin:auto}.top{position:sticky;top:0;z-index:20;background:#081522eF;backdrop-filter:blur(16px);border-bottom:1px solid #ffffff13}.topin{height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{display:flex;align-items:center;gap:11px;font-weight:950;letter-spacing:-.6px}.ball{width:44px;height:44px;border-radius:14px;background:linear-gradient(145deg,var(--green),#d2ff9e);color:#142613;display:grid;place-items:center;font-size:24px;box-shadow:0 6px 18px #a3ef5533}.brandname{font-size:21px;line-height:1}.brandname span{color:var(--green)}.brand small{display:block;font-size:9px;letter-spacing:1.7px;color:var(--muted);margin-top:5px;font-weight:700}.nav{display:flex;gap:7px;align-items:center}.nav a{padding:10px 13px;border-radius:10px;color:#c3d1dd;font-size:12px;font-weight:750}.nav a:hover,.nav a.active{background:#1b3547;color:var(--green)}.topright{display:flex;align-items:center;gap:9px}.datepill{border:1px solid var(--line);padding:9px 12px;border-radius:10px;color:#c9d8e4;font-size:11px}.refresh{border:1px solid var(--line);background:var(--panel);color:var(--text);height:38px;width:40px;border-radius:10px}.hero{padding:44px 0 24px}.heroin{display:grid;grid-template-columns:1.1fr .9fr;gap:25px;align-items:center}.eyebrow{font-size:10px;letter-spacing:2px;color:var(--green);font-weight:950}.hero h1{font-size:clamp(34px,5vw,57px);line-height:1.02;letter-spacing:-2px;margin:12px 0}.hero h1 span{color:var(--green)}.hero p{max-width:570px;color:#b6c7d4;font-size:15px;margin:0}.heroactions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.primary,.outline{border-radius:11px;padding:12px 17px;font-weight:900;font-size:12px}.primary{border:0;background:linear-gradient(100deg,var(--green),#c2f27a);color:#14200e}.outline{border:1px solid #577087;background:#102438;color:#e6f0f7}.heroaside{position:relative;min-height:210px;padding:24px;border:1px solid #42604e;border-radius:22px;background:linear-gradient(145deg,#1c3c3d,#142b3c 65%,#112235);overflow:hidden;box-shadow:var(--shadow)}.heroaside:after{content:'⚽';position:absolute;right:15px;bottom:-45px;font-size:175px;opacity:.08;transform:rotate(-18deg)}.heroaside .headline{font-size:12px;color:#d3e4ef;font-weight:800}.heroaside strong{display:block;font-size:30px;color:var(--green);margin:8px 0 2px}.heroaside p{font-size:11px;color:#b2c5d3;max-width:280px}.mini-tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:18px}.tag{font-size:9px;color:#d6e5ef;padding:6px 9px;border-radius:99px;background:#ffffff10;border:1px solid #ffffff16}.disclaimer{margin:16px 0 24px;background:#122d3c;border:1px solid #31544e;border-radius:13px;padding:12px 15px;color:#c2d2dc;font-size:11px;display:flex;gap:10px}.disclaimer b{color:var(--green)}.pagegrid{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:18px;align-items:start}.sectionhead{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:14px}.sectionhead h2{font-size:23px;margin:3px 0 0;letter-spacing:-.5px}.sectionhead p{margin:4px 0 0;color:var(--muted);font-size:11px}.count{padding:7px 10px;border-radius:9px;background:#183b34;color:var(--green);font-weight:900;font-size:10px}.tabs{display:flex;gap:7px;flex-wrap:wrap;padding:6px;background:#0e2233;border:1px solid var(--line);border-radius:13px;margin-bottom:12px}.tab{border:0;background:transparent;color:#b9c9d5;padding:10px 14px;border-radius:9px;font-size:11px;font-weight:900}.tab.active{background:var(--green);color:#14200e}.filters{display:flex;gap:8px;align-items:center;margin:0 0 14px;flex-wrap:wrap}.filter{border:1px solid var(--line);background:#102438;color:#c3d2dd;padding:8px 11px;border-radius:9px;font-size:10px;font-weight:850}.filter.active{border-color:var(--green);color:var(--green);background:#19352f}.search{margin-left:auto;min-width:150px;max-width:220px;width:30%;background:#0e2233;border:1px solid var(--line);border-radius:9px;padding:9px 11px;color:var(--text);font-size:11px;outline:none}.search:focus{border-color:var(--green)}.matchlist{display:grid;gap:11px}.match{background:linear-gradient(145deg,#122b40,#0d2031);border:1px solid #29465b;border-radius:16px;padding:15px;transition:.18s}.match:hover{border-color:#779c5b;transform:translateY(-1px)}.matchtop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px}.league{display:flex;align-items:center;gap:8px;color:#c2d4e0;font-size:10px;font-weight:800}.league img{width:19px;height:19px;object-fit:contain}.kickoff{font-size:10px;color:var(--green);font-weight:900}.teams{display:grid;grid-template-columns:minmax(0,1fr) 50px minmax(0,1fr);gap:12px;align-items:center;padding:4px 5px 13px}.team{display:flex;align-items:center;gap:10px;min-width:0}.team.away{flex-direction:row-reverse;text-align:right}.crest{height:42px;width:42px;flex:none;border-radius:12px;background:#1a354a;border:1px solid #35536a;display:grid;place-items:center;overflow:hidden;color:var(--green);font-weight:900;font-size:10px}.crest img{height:100%;width:100%;object-fit:contain;padding:4px}.teamname{font-size:13px;font-weight:900;line-height:1.25;overflow-wrap:anywhere}.team small{display:block;color:#7f99ad;font-size:9px;margin-top:4px}.vs{color:#8297a8;font-weight:950;text-align:center;font-size:10px}.matchfoot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:11px;border-top:1px solid #29465b}.matchstatus{font-size:9px;font-weight:900;color:#aabdc9}.matchstatus.live{color:#ff898e}.matchstatus.finished{color:#9eb0bd}.predictbtn{border:0;border-radius:9px;padding:9px 13px;background:linear-gradient(100deg,var(--green),#c2f27a);color:#17210f;font-size:10px;font-weight:950}.predictbtn:disabled{opacity:.6;cursor:wait}.analysis{display:none;margin-top:12px;border:1px solid #3e6746;border-radius:12px;background:#0b1d2a;padding:14px}.analysis.open{display:block}.analysis h3{margin:0 0 11px;color:var(--green);font-size:11px;letter-spacing:.8px}.pickgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.pick{background:#142e40;border:1px solid #294d5d;border-radius:10px;padding:10px}.pick small{display:block;color:#90a8b8;font-size:8px;font-weight:900;letter-spacing:.6px}.pick strong{display:block;color:#f2f8fc;font-size:14px;margin-top:5px}.pick.score strong{color:var(--green);font-size:22px}.probs{display:grid;gap:8px;margin-top:12px}.prob{display:grid;grid-template-columns:105px 1fr 38px;align-items:center;gap:8px;color:#aebfca;font-size:9px}.bar{height:7px;border-radius:20px;background:#304353;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#6dbf42,var(--green));border-radius:20px}.advice{font-size:10px;color:#b4c4cf;margin:11px 0 0}.sidebarcol{display:grid;gap:12px}.sidecard{padding:16px;background:linear-gradient(145deg,#132e43,#0e2132);border:1px solid #29465b;border-radius:15px}.sidecard h3{margin:0 0 11px;font-size:11px;letter-spacing:.8px}.sidebig{font-size:30px;font-weight:950;color:var(--green)}.sidecard p{font-size:10px;color:var(--muted);margin:4px 0}.sideline{border-top:1px solid #29465b;margin-top:12px;padding-top:10px;color:#bbccd7;font-size:10px;display:flex;justify-content:space-between}.sideline b{color:var(--green)}.sidecard ul{padding-left:17px;color:#bbcbd7;font-size:10px;line-height:2;margin:0}.empty,.loading{padding:28px 16px;border:1px dashed #38566c;background:#102438;border-radius:14px;text-align:center;color:#b0c3d0;font-size:11px}.empty b{color:var(--green)}.foot{margin:32px 0 0;border-top:1px solid #243d50;padding:20px 0 32px;color:#8499a9;font-size:10px}.foot strong{color:var(--green)}.foot p{max-width:800px}.mobilebar{display:none}
+@media(max-width:900px){.pagegrid{grid-template-columns:minmax(0,1fr) 240px}.heroin{grid-template-columns:1fr .8fr}.nav a{padding:9px 8px;font-size:11px}}
+@media(max-width:700px){.wrap{width:min(100% - 24px,560px)}.topin{height:64px}.nav{display:none}.brandname{font-size:18px}.datepill{display:none}.hero{padding:29px 0 16px}.heroin{grid-template-columns:1fr}.hero h1{font-size:39px}.heroaside{min-height:160px}.heroaside strong{font-size:25px}.pagegrid{grid-template-columns:1fr}.sidebarcol{grid-template-columns:1fr 1fr}.sidebarcol .sidecard:last-child{grid-column:1/-1}.sectionhead h2{font-size:20px}.tabs{display:grid;grid-template-columns:repeat(3,1fr)}.tab{padding:10px 5px;font-size:10px}.search{order:5;width:100%;max-width:none;margin-left:0}.teams{grid-template-columns:minmax(0,1fr) 30px minmax(0,1fr);gap:6px}.team{gap:7px}.crest{height:35px;width:35px;border-radius:10px}.teamname{font-size:11px}.match{padding:12px}.predictbtn{padding:9px 10px}.pickgrid{grid-template-columns:1fr 1fr}.pick.score{grid-column:1/-1}.pick.score strong{font-size:23px}.mobilebar{position:fixed;z-index:30;bottom:0;left:0;right:0;display:flex;justify-content:space-around;padding:10px 4px calc(10px + env(safe-area-inset-bottom));background:#081522f5;border-top:1px solid #29465b}.mobilebar a{color:#b8c9d5;font-size:9px;font-weight:850;text-align:center}.mobilebar span{display:block;font-size:17px;color:var(--green);margin-bottom:2px}.foot{padding-bottom:78px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap topin">
+  <a class="brand" href="#accueil" aria-label="GOD04 PRONOS Accueil"><div class="ball">⚽</div><div><div class="brandname">GOD<span>04</span> PRONOS</div><small>PRONOSTICS GRATUITS DU JOUR</small></div></a>
+  <nav class="nav"><a class="active" href="#accueil">Accueil</a><a href="#rencontres">Matchs du jour</a><a href="#fonctionnement">Comment ça marche</a></nav>
+  <div class="topright"><div class="datepill" id="todayLabel">Date du jour</div><button class="refresh" id="refresh" title="Actualiser les matchs" aria-label="Actualiser">↻</button></div>
+</div></header>
+<main class="wrap" id="accueil">
+<section class="hero"><div class="heroin"><div><div class="eyebrow">FOOTBALL · ANALYSES · STATISTIQUES</div><h1>Les pronostics<br><span>gratuits du jour.</span></h1><p>Retrouve les rencontres du jour, consulte les analyses disponibles et construis tes propres choix grâce aux données footballistiques.</p><div class="heroactions"><a class="primary" href="#rencontres">Voir les matchs du jour ↓</a><a class="outline" href="#fonctionnement">Notre méthode</a></div></div>
+<div class="heroaside"><div class="headline">TA PLATEFORME FOOTBALL GRATUITE</div><strong>0 FCFA</strong><p>Accès gratuit aux rencontres et aux pronostics statistiques disponibles.</p><div class="mini-tags"><span class="tag">✓ Matchs réels</span><span class="tag">✓ Analyses gratuites</span><span class="tag">✓ Données API</span></div></div></div></section>
+<div class="disclaimer"><span>✦</span><div><b>Bienvenue sur GOD04 PRONOS.</b> Les prédictions sont des estimations statistiques, jamais des garanties de résultat. Les matchs terminés ne sont pas présentés comme des rencontres à venir.</div></div>
+<div class="pagegrid" id="rencontres"><section>
+<div class="sectionhead"><div><div class="eyebrow">CENTRE DES RENCONTRES</div><h2 id="title">Matchs du jour</h2><p id="subtitle">Chargement du calendrier…</p></div><span class="count" id="matchCount">— MATCHS</span></div>
+<div class="tabs"><button class="tab active" data-day="today">Aujourd'hui</button><button class="tab" data-day="tomorrow">Demain</button><button class="tab" data-day="yesterday">Hier · Résultats</button></div>
+<div class="filters"><button class="filter active" data-filter="all">Tous</button><button class="filter" data-filter="upcoming">À venir</button><button class="filter" data-filter="live">En direct</button><input class="search" id="search" type="search" placeholder="Rechercher une équipe ou une ligue…" aria-label="Rechercher"></div>
+<div class="matchlist" id="matches"><div class="loading">Chargement des rencontres…</div></div>
+</section>
+<aside class="sidebarcol"><div class="sidecard"><div class="eyebrow">VOTRE ESPACE GRATUIT</div><div class="sidebig">GOD04</div><p>Pronostics et analyses football accessibles gratuitement.</p><div class="sideline"><span>Rencontres chargées</span><b id="sideCount">—</b></div><div class="sideline"><span>Matchs en direct</span><b id="sideLive">—</b></div><div class="sideline"><span>Matchs à venir</span><b id="sideUpcoming">—</b></div></div>
+<div class="sidecard" id="fonctionnement"><h3>COMMENT ÇA MARCHE ?</h3><ul><li>Choisis une date.</li><li>Repère une rencontre.</li><li>Clique sur « Voir le pronostic ».</li><li>Consulte les données disponibles.</li></ul></div>
+<div class="sidecard"><h3>À PROPOS DES PRÉDICTIONS</h3><p>Les probabilités et tendances sont affichées uniquement lorsqu'elles sont fournies par la source de données. Le score exact est une estimation calculée à partir des buts attendus ; sinon, il affiche N/D.</p></div></aside>
+</div>
+<footer class="foot"><strong>GOD04 PRONOS</strong><p>Plateforme indépendante de statistiques et de pronostics football gratuits. Les paris sportifs comportent des risques financiers. 18+ uniquement. Ne mise jamais l'argent nécessaire à tes besoins essentiels.</p>© <span id="year"></span> GOD04 PRONOS · Tous droits réservés.</footer>
+</main>
+<nav class="mobilebar"><a href="#accueil"><span>⌂</span>Accueil</a><a href="#rencontres"><span>⚽</span>Matchs</a><a href="#fonctionnement"><span>ⓘ</span>Infos</a></nav>
+<script>
+'use strict';
+const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => [...document.querySelectorAll(selector)];
+const TZ = 'Africa/Lome';
+let selectedDay = 'today';
+let activeFilter = 'all';
+let fixtures = [];
+let requestNumber = 0;
+
+function lomeDate(date = new Date()) {
+  const parts = new Intl.DateTimeFormat('en-CA', {timeZone: TZ, year:'numeric', month:'2-digit', day:'2-digit'}).formatToParts(date);
+  const p = Object.fromEntries(parts.map(x => [x.type, x.value]));
+  return `${p.year}-${p.month}-${p.day}`;
+}
+function shiftDate(iso, amount) {
+  const d = new Date(`${iso}T12:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + amount);
+  return d.toISOString().slice(0,10);
+}
+function prettyDate(iso, options = {weekday:'long', day:'numeric', month:'long'}) {
+  return new Intl.DateTimeFormat('fr-FR', {...options, timeZone:TZ}).format(new Date(`${iso}T12:00:00Z`));
+}
+function esc(value) {
+  return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+function statusOf(match) {
+  const code = match?.fixture?.status?.short || '';
+  if (['1H','2H','HT','ET','P','LIVE','INT','BT'].includes(code)) return 'live';
+  if (['FT','AET','PEN','PST','CANC','ABD','AWD','WO'].includes(code)) return 'finished';
+  return 'upcoming';
+}
+function kickoff(match) {
+  return new Intl.DateTimeFormat('fr-FR', {timeZone:TZ, hour:'2-digit', minute:'2-digit'}).format(new Date(match.fixture.date));
+}
+function crest(team) {
+  const name = team?.name || '?';
+  const initials = name.split(/\s+/).map(part => part[0]).join('').slice(0,3).toUpperCase();
+  const logo = team?.logo;
+  return `<div class="crest">${logo ? `<img src="${esc(logo)}" alt="" loading="lazy" onerror="this.remove();this.parentElement.textContent='${esc(initials)}'">` : esc(initials)}</div>`;
+}
+function matchCard(match) {
+  const id = String(match.fixture.id);
+  const home = match.teams?.home || {};
+  const away = match.teams?.away || {};
+  const state = statusOf(match);
+  const when = state === 'live' ? 'EN DIRECT' : state === 'finished' ? 'TERMINÉ' : 'À VENIR';
+  return `<article class="match" data-match="${esc(id)}" data-search="${esc(`${home.name||''} ${away.name||''} ${match.league?.name||''} ${match.league?.country||''}`.toLowerCase())}">
+    <div class="matchtop"><div class="league">${match.league?.logo ? `<img src="${esc(match.league.logo)}" alt="" loading="lazy">` : ''}<span>${esc(match.league?.country || 'Football')} · ${esc(match.league?.name || 'Compétition')}</span></div><span class="kickoff">${state === 'finished' ? 'RÉSULTAT' : kickoff(match)}</span></div>
+    <div class="teams"><div class="team">${crest(home)}<div><div class="teamname">${esc(home.name || 'Équipe 1')}</div><small>V1 · Domicile</small></div></div><div class="vs">${state === 'finished' ? `${match.goals?.home ?? '—'} - ${match.goals?.away ?? '—'}` : state === 'live' ? `${match.goals?.home ?? 0} - ${match.goals?.away ?? 0}` : 'VS'}</div><div class="team away">${crest(away)}<div><div class="teamname">${esc(away.name || 'Équipe 2')}</div><small>V2 · Extérieur</small></div></div></div>
+    <div class="matchfoot"><span class="matchstatus ${state}">${when}${state === 'live' && match.fixture?.status?.elapsed != null ? ` · ${match.fixture.status.elapsed}′` : ''}</span>${state === 'finished' ? '<span class="matchstatus">Résultat final</span>' : `<button class="predictbtn" data-predict="${esc(id)}" data-home="${esc(home.id || '')}" data-away="${esc(away.id || '')}">Voir le pronostic gratuit ↗</button>`}</div>
+    <div class="analysis" id="analysis-${esc(id)}"></div></article>`;
+}
+function visibleFixtures() {
+  const q = ($('#search').value || '').trim().toLowerCase();
+  return fixtures.filter(match => {
+    const state = statusOf(match);
+    const stateOk = selectedDay === 'yesterday' ? state === 'finished' : state !== 'finished' && (activeFilter === 'all' || state === activeFilter);
+    const text = `${match.teams?.home?.name||''} ${match.teams?.away?.name||''} ${match.league?.name||''} ${match.league?.country||''}`.toLowerCase();
+    return stateOk && (!q || text.includes(q));
+  });
+}
+function render() {
+  const shown = visibleFixtures();
+  $('#matches').innerHTML = shown.length ? shown.map(matchCard).join('') : `<div class="empty">Aucune rencontre ne correspond à ces critères pour cette date.<br><br><b>Essaie une autre date ou enlève un filtre.</b></div>`;
+  $('#matchCount').textContent = `${shown.length} MATCH${shown.length > 1 ? 'S' : ''}`;
+  // Les compteurs reflètent les rencontres réellement visibles après filtres et recherche.
+  $('#sideCount').textContent = shown.length;
+  $('#sideLive').textContent = shown.filter(x => statusOf(x) === 'live').length;
+  $('#sideUpcoming').textContent = shown.filter(x => statusOf(x) === 'upcoming').length;
+}
+async function getFixtures(date) {
+  const response = await fetch(`/.netlify/functions/fixtures?date=${encodeURIComponent(date)}&timezone=${encodeURIComponent(TZ)}`, {headers:{Accept:'application/json'}});
+  const payload = await response.json();
+  if (!response.ok) throw new Error(payload.error || `Erreur HTTP ${response.status}`);
+  if (payload.errors && Object.keys(payload.errors).length) throw new Error(JSON.stringify(payload.errors));
+  if (!Array.isArray(payload.response)) throw new Error('La réponse de calendrier ne contient pas de liste de rencontres.');
+  return payload.response;
+}
+async function loadDay(day) {
+  selectedDay = day;
+  activeFilter = 'all';
+  $$('.tab').forEach(button => button.classList.toggle('active', button.dataset.day === day));
+  $$('.filter').forEach(button => button.classList.toggle('active', button.dataset.filter === 'all'));
+  const today = lomeDate();
+  const date = day === 'tomorrow' ? shiftDate(today, 1) : day === 'yesterday' ? shiftDate(today, -1) : today;
+  const thisRequest = ++requestNumber;
+  $('#title').textContent = day === 'tomorrow' ? 'Matchs de demain' : day === 'yesterday' ? 'Résultats d’hier' : 'Matchs du jour';
+  $('#subtitle').textContent = prettyDate(date);
+  $('#matches').innerHTML = '<div class="loading">Chargement du calendrier et des rencontres…</div>';
+  try {
+    const rows = await getFixtures(date);
+    if (thisRequest !== requestNumber) return;
+    fixtures = rows;
+    render();
+  } catch (error) {
+    if (thisRequest !== requestNumber) return;
+    fixtures = [];
+    $('#matches').innerHTML = `<div class="empty"><b>Le calendrier n’a pas pu être chargé.</b><br>${esc(error.message)}<br><br>Vérifie le déploiement de la fonction Netlify et la variable API_FOOTBALL_KEY.</div>`;
+    $('#matchCount').textContent = '— MATCHS';
+    $('#sideCount').textContent = '—'; $('#sideLive').textContent = '—'; $('#sideUpcoming').textContent = '—';
+  }
+}
+async function loadPrediction(id, homeId, awayId, button) {
+  const box = $(`#analysis-${CSS.escape(id)}`);
+  if (!box) return;
+  if (box.classList.contains('open')) { box.classList.remove('open'); button.textContent = 'Voir le pronostic gratuit ↗'; return; }
+  box.classList.add('open');
+  box.innerHTML = '<div class="loading">Analyse statistique en cours…</div>';
+  button.disabled = true; button.textContent = 'Analyse…';
+  try {
+    const predictionUrl = `/.netlify/functions/predictions?fixture=${encodeURIComponent(id)}&home=${encodeURIComponent(homeId)}&away=${encodeURIComponent(awayId)}`;
+    const response = await fetch(predictionUrl, {headers:{Accept:'application/json'}});
+    const payload = await response.json();
+    if (!response.ok) throw new Error(payload.error || `Erreur HTTP ${response.status}`);
+    const p = payload.prediction;
+    if (!p) { const samples = payload.availableSamples ? `<p class="advice">Matchs récents exploitables : équipe à domicile ${esc(payload.availableSamples.home)} · équipe à l'extérieur ${esc(payload.availableSamples.away)}.</p>` : ''; box.innerHTML = `<h3>PRONOSTIC GRATUIT</h3><p class="advice">${esc(payload.message || 'Aucune analyse statistique disponible pour cette rencontre.')}</p>${samples}`; return; }
+    const probs = p.probabilities || {};
+    const card = button.closest('.match');
+    const teams = card?.querySelectorAll('.teamname');
+    const homeName = teams?.[0]?.textContent || 'V1';
+    const awayName = teams?.[1]?.textContent || 'V2';
+    const winner = p.winner === 'V1' ? homeName : p.winner === 'V2' ? awayName : p.winner || 'Non disponible';
+    const dc = p.doubleChance === '1X' ? `${homeName} ou match nul` : p.doubleChance === 'X2' ? `${awayName} ou match nul` : p.doubleChance === '12' ? 'V1 ou V2 gagne' : 'Non disponible';
+    const picks = `<div class="pick"><small>ISSUE PRINCIPALE</small><strong>${esc(winner)}</strong></div><div class="pick"><small>DOUBLE CHANCE</small><strong>${esc(dc)}</strong></div><div class="pick score"><small>SCORE EXACT ESTIMÉ</small><strong>${esc(p.exactScore || 'N/D')}</strong></div>`;
+    const rows = [['Victoire V1',probs.home],['Match nul',probs.draw],['Victoire V2',probs.away]].filter(row => row[1] !== null && row[1] !== undefined && Number.isFinite(Number(row[1])));
+    const bars = rows.map(([label,value]) => { const n = Math.max(0, Math.min(100, Number(value))); return `<div class="prob"><span>${label}</span><div class="bar"><i style="width:${n}%"></i></div><b>${esc(value)}${String(value).includes('%') ? '' : '%'}</b></div>`; }).join('');
+    const sourceNote = p.source === 'recent_form' ? `<p class="advice"><b>Analyse de secours :</b> basée sur les ${esc(p.sample?.home ?? '?')} derniers matchs terminés à domicile et les ${esc(p.sample?.away ?? '?')} derniers à l'extérieur. Modèle indicatif, moins complet que l'analyse API.</p>` : '<p class="advice">Source : analyse statistique API-Football.</p>';
+    box.innerHTML = `<h3>PRONOSTIC GRATUIT · ANALYSE STATISTIQUE</h3>${sourceNote}<div class="pickgrid">${picks}</div>${p.btts ? `<p class="advice"><b>Les deux équipes marquent :</b> ${esc(p.btts)}</p>` : ''}${p.expectedHome !== null && p.expectedHome !== undefined && p.expectedAway !== null && p.expectedAway !== undefined ? `<p class="advice"><b>Buts attendus :</b> ${esc(p.expectedHome)} – ${esc(p.expectedAway)}</p>` : ''}${bars ? `<div class="probs">${bars}</div>` : '<p class="advice">Les pourcentages 1X2 ne sont pas disponibles pour ce match.</p>'}<p class="advice">${esc(p.advice || 'Estimation calculée à partir des données statistiques disponibles.')}</p><p class="advice">Le score exact est une estimation, pas un résultat certain.</p>`;
+  } catch (error) {
+    box.innerHTML = `<h3>ANALYSE INDISPONIBLE</h3><p class="advice">${esc(error.message)}</p>`;
+  } finally {
+    button.disabled = false; button.textContent = 'Masquer le pronostic ↑';
+  }
+}
+
+$$('.tab').forEach(button => button.addEventListener('click', () => loadDay(button.dataset.day)));
+$$('.filter').forEach(button => button.addEventListener('click', () => { activeFilter = button.dataset.filter; $$('.filter').forEach(x => x.classList.toggle('active', x === button)); render(); }));
+$('#search').addEventListener('input', render);
+$('#refresh').addEventListener('click', () => loadDay(selectedDay));
+$('#matches').addEventListener('click', event => { const button = event.target.closest('[data-predict]'); if (button) loadPrediction(button.dataset.predict, button.dataset.home, button.dataset.away, button); });
+$('#todayLabel').textContent = prettyDate(lomeDate(), {weekday:'short',day:'numeric',month:'short',year:'numeric'});
+$('#year').textContent = new Date().getFullYear();
+loadDay('today');
+</script>
+</body>
+</html>

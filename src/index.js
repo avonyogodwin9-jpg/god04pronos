@@ -1,0 +1,226 @@
+const API_BASE = 'https://v3.football.api-sports.io';
+const TZ = 'Africa/Lome';
+const FINISHED = new Set(['FT', 'AET', 'PEN']);
+
+function json(data, status = 200, cache = 'no-store') {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Cache-Control': cache,
+      'X-Content-Type-Options': 'nosniff'
+    }
+  });
+}
+
+function toNumber(value) {
+  if (value === null || value === undefined || value === '') return null;
+  const n = Number(String(value).replace('%', '').trim());
+  return Number.isFinite(n) ? n : null;
+}
+function factorial(n) { let out = 1; for (let i = 2; i <= n; i++) out *= i; return out; }
+function poisson(k, lambda) { return Math.exp(-lambda) * Math.pow(lambda, k) / factorial(k); }
+
+async function apiGet(path, params, key) {
+  const url = new URL(`${API_BASE}${path}`);
+  for (const [k, v] of Object.entries(params)) {
+    if (v !== undefined && v !== null && v !== '') url.searchParams.set(k, String(v));
+  }
+  const res = await fetch(url, {
+    headers: { 'x-apisports-key': key, Accept: 'application/json' }
+  });
+  const raw = await res.text();
+  let body;
+  try { body = JSON.parse(raw); }
+  catch { throw new Error(`Réponse API-Football invalide (HTTP ${res.status}).`); }
+  if (!res.ok) {
+    const details = body?.errors && Object.keys(body.errors).length
+      ? JSON.stringify(body.errors)
+      : `HTTP ${res.status}`;
+    throw new Error(`API-Football : ${details}`);
+  }
+  if (body?.errors && Object.keys(body.errors).length) {
+    throw new Error(`API-Football : ${JSON.stringify(body.errors)}`);
+  }
+  return body;
+}
+
+function requireKey(env) {
+  if (!env.API_FOOTBALL_KEY) throw new Error('Secret API_FOOTBALL_KEY absent dans Cloudflare Workers.');
+  return env.API_FOOTBALL_KEY;
+}
+
+async function fixturesHandler(request, env) {
+  if (request.method !== 'GET') return json({ error: 'Méthode non autorisée. Utilise GET.' }, 405);
+  let key;
+  try { key = requireKey(env); } catch (e) { return json({ error: e.message }, 500); }
+  const params = new URL(request.url).searchParams;
+  const date = params.get('date');
+  const timezone = params.get('timezone') || TZ;
+  if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    return json({ error: 'Date invalide. Format attendu : AAAA-MM-JJ.' }, 400);
+  }
+  try {
+    const data = await apiGet('/fixtures', { date, timezone }, key);
+    return json(data, 200, 'public, max-age=60, stale-while-revalidate=300');
+  } catch (e) {
+    console.error('fixtures handler:', e);
+    return json({ error: e.message || 'Impossible de récupérer les rencontres.' }, 502);
+  }
+}
+
+async function getRecentForm(teamId, key) {
+  const data = await apiGet('/fixtures', { team: teamId, last: 5, timezone: TZ }, key);
+  const rows = Array.isArray(data.response) ? data.response : [];
+  const form = [];
+  for (const m of rows) {
+    if (!FINISHED.has(m?.fixture?.status?.short)) continue;
+    const homeId = Number(m?.teams?.home?.id);
+    const awayId = Number(m?.teams?.away?.id);
+    const hg = toNumber(m?.goals?.home);
+    const ag = toNumber(m?.goals?.away);
+    if (hg === null || ag === null) continue;
+    if (homeId === Number(teamId)) form.push({ scored: hg, conceded: ag });
+    else if (awayId === Number(teamId)) form.push({ scored: ag, conceded: hg });
+  }
+  return form;
+}
+function average(values) { return values.reduce((s, v) => s + v, 0) / values.length; }
+function recentFormPrediction(homeForm, awayForm) {
+  if (homeForm.length < 3 || awayForm.length < 3) return null;
+  const hs = average(homeForm.map(x => x.scored));
+  const hc = average(homeForm.map(x => x.conceded));
+  const as = average(awayForm.map(x => x.scored));
+  const ac = average(awayForm.map(x => x.conceded));
+  const eh = Math.max(0.2, Math.min(3.5, ((hs + ac) / 2) * 1.05));
+  const ea = Math.max(0.2, Math.min(3.5, ((as + hc) / 2) * 0.95));
+  const grid = [];
+  let total = 0;
+  for (let h = 0; h <= 7; h++) for (let a = 0; a <= 7; a++) {
+    const mass = poisson(h, eh) * poisson(a, ea);
+    grid.push({ h, a, mass }); total += mass;
+  }
+  if (!Number.isFinite(total) || total <= 0) return null;
+  let home = 0, draw = 0, away = 0, btts = 0, best = { h: 0, a: 0, p: -1 };
+  for (const c of grid) {
+    const p = c.mass / total;
+    if (c.h > c.a) home += p; else if (c.h === c.a) draw += p; else away += p;
+    if (c.h > 0 && c.a > 0) btts += p;
+    if (p > best.p) best = { h: c.h, a: c.a, p };
+  }
+  const pct = [Math.round(home * 100), Math.round(draw * 100), 0];
+  pct[2] = Math.max(0, 100 - pct[0] - pct[1]);
+  const [ph, pd, pa] = pct;
+  const dc = [
+    { label: '1X', value: ph + pd },
+    { label: 'X2', value: pa + pd },
+    { label: '12', value: ph + pa }
+  ].sort((x, y) => y.value - x.value)[0].label;
+  const high = Math.max(ph, pd, pa);
+  return {
+    source: 'recent_form',
+    winner: high === ph ? 'V1' : high === pd ? 'Nul' : 'V2',
+    doubleChance: dc,
+    exactScore: `${best.h}-${best.a}`,
+    btts: btts >= 0.5 ? 'OUI' : 'NON',
+    expectedHome: Number(eh.toFixed(2)),
+    expectedAway: Number(ea.toFixed(2)),
+    probabilities: { home: ph, draw: pd, away: pa },
+    sample: { home: homeForm.length, away: awayForm.length },
+    advice: `Estimation indicative basée sur ${homeForm.length} matchs récents de l'équipe à domicile et ${awayForm.length} de l'équipe à l'extérieur. Ce modèle simple ne garantit aucun résultat.`
+  };
+}
+
+async function predictionsHandler(request, env) {
+  if (request.method !== 'GET') return json({ error: 'Méthode non autorisée. Utilise GET.' }, 405);
+  let key;
+  try { key = requireKey(env); } catch (e) { return json({ error: e.message }, 500); }
+  const q = new URL(request.url).searchParams;
+  const fixture = q.get('fixture'), home = q.get('home'), away = q.get('away');
+  if (!fixture || !/^\d+$/.test(fixture)) return json({ error: 'Identifiant du match invalide.' }, 400);
+  if (!home || !/^\d+$/.test(home) || !away || !/^\d+$/.test(away)) {
+    return json({ error: 'Identifiants des deux équipes manquants. Recharge la page et réessaie.' }, 400);
+  }
+  let predictionError = null;
+  try {
+    const data = await apiGet('/predictions', { fixture }, key);
+    const raw = data.response?.[0]?.predictions;
+    if (raw) {
+      const pct = raw.percent || {};
+      const ph = toNumber(pct.home), pd = toNumber(pct.draw), pa = toNumber(pct.away);
+      const eh = toNumber(raw.goals?.home), ea = toNumber(raw.goals?.away);
+      let winner = null, doubleChance = null, exactScore = null;
+      if (ph !== null && pd !== null && pa !== null) {
+        const max = Math.max(ph, pd, pa);
+        winner = max === ph ? 'V1' : max === pd ? 'Nul' : 'V2';
+        doubleChance = [
+          { label: '1X', value: ph + pd }, { label: 'X2', value: pa + pd }, { label: '12', value: ph + pa }
+        ].sort((a, b) => b.value - a.value)[0].label;
+      } else if (raw.winner?.name) winner = raw.winner.name;
+      if (eh !== null && ea !== null) {
+        let best = { p: -1, h: 0, a: 0 };
+        for (let h = 0; h <= 5; h++) for (let a = 0; a <= 5; a++) {
+          const p = poisson(h, eh) * poisson(a, ea);
+          if (p > best.p) best = { p, h, a };
+        }
+        exactScore = `${best.h}-${best.a}`;
+      }
+      if (winner || doubleChance || exactScore || eh !== null || ea !== null || ph !== null || pd !== null || pa !== null) {
+        return json({ prediction: {
+          source: 'api_predictions', winner, doubleChance, exactScore,
+          btts: eh !== null && ea !== null ? (eh >= 1 && ea >= 1 ? 'OUI' : 'NON') : null,
+          expectedHome: eh, expectedAway: ea,
+          probabilities: { home: ph, draw: pd, away: pa },
+          advice: raw.advice || 'Analyse statistique fournie par API-Football.'
+        } }, 200, 'public, max-age=21600, stale-while-revalidate=3600');
+      }
+    }
+  } catch (e) { predictionError = e.message; }
+  try {
+    const [hf, af] = await Promise.all([getRecentForm(home, key), getRecentForm(away, key)]);
+    const fallback = recentFormPrediction(hf, af);
+    if (!fallback) return json({
+      prediction: null, fallback: true, apiPredictionError: predictionError,
+      availableSamples: { home: hf.length, away: af.length },
+      message: 'Données insuffisantes : au moins 3 matchs terminés exploitables par équipe sont nécessaires. Aucun pronostic ne sera inventé.'
+    }, 200, 'public, max-age=600');
+    return json({ prediction: fallback }, 200, 'public, max-age=21600, stale-while-revalidate=3600');
+  } catch (e) {
+    console.error('predictions handler:', e);
+    return json({ error: e.message || 'Analyse indisponible.' }, 502);
+  }
+}
+
+async function oddsHandler(request, env) {
+  if (request.method !== 'GET') return json({ error: 'Méthode non autorisée.' }, 405);
+  let key;
+  try { key = requireKey(env); } catch (e) { return json({ error: e.message }, 500); }
+  const fixture = new URL(request.url).searchParams.get('fixture');
+  if (!fixture || !/^\d+$/.test(fixture)) return json({ error: 'Identifiant du match invalide.' }, 400);
+  try {
+    const data = await apiGet('/odds', { fixture }, key);
+    const rows = Array.isArray(data.response) ? data.response : [];
+    const bookmakers = rows.flatMap(row => (row.bookmakers || []).map(book => ({
+      name: book.name || 'Bookmaker',
+      markets: (book.bets || []).map(bet => ({
+        market: bet.name || 'Marché',
+        odds: (bet.values || []).map(value => ({ selection: value.value, odd: value.odd }))
+      }))
+    })));
+    return json({ bookmakers }, 200, 'public, max-age=900, stale-while-revalidate=300');
+  } catch (e) {
+    console.error('odds handler:', e);
+    return json({ error: e.message || 'Cotes indisponibles.' }, 502);
+  }
+}
+
+export default {
+  async fetch(request, env, ctx) {
+    const path = new URL(request.url).pathname;
+    if (path === '/healthz') return json({ worker: 'ok', apiKeyConfigured: Boolean(env.API_FOOTBALL_KEY) });
+    if (path === '/.netlify/functions/fixtures' || path === '/api/fixtures') return fixturesHandler(request, env);
+    if (path === '/.netlify/functions/predictions' || path === '/api/predictions') return predictionsHandler(request, env);
+    if (path === '/.netlify/functions/odds' || path === '/api/odds') return oddsHandler(request, env);
+    return env.ASSETS.fetch(request);
+  }
+};
